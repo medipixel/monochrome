@@ -4,3 +4,18 @@
 
 //Import
 @import "base", "mixin", "typography", "layout", "syntax.scss", "custom.scss";
+
+figure figcaption {
+	font-size: 0.9em;
+	padding: 0px;
+}
+
+figure img {
+	display: inline;
+	margin: 0;
+}
+
+figure {
+	margin-bottom: 1em;
+    text-align: center;
+}
