@@ -170,6 +170,12 @@
     }
 }
 
+#post-page a, a > code {
+  color: #0000CD; /*default: rgb(249, 38, 114); || sets color of links */
+  text-decoration: none; /* turns off background coloring of links */
+}
+
+
 .post+.post:before {
     display: block;
     content: '';
