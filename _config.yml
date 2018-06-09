@@ -1,7 +1,7 @@
 # Site settings
 title: Medipixel 
-description: "A minimal, responsive, ready to use blog template, built with Jekyll."
-url: "http://www.dyutibarma.github.io/monochrome"
+description: "Medipixel's tech blog"
+url: "https://www.medipixel.github.io"
 author:
   name: "The Review Index"
   email: "dyutibarma@gmail.com"
@@ -9,7 +9,7 @@ author:
 
 # Build settings
 # baseurl: /monochrome # Change this to your relative path (ex: /blog/), or leave just a /
-baseurl: 
+baseurl: "https://medipixel.github.io"
 markdown: kramdown
 source: .
 destination: ./_site
