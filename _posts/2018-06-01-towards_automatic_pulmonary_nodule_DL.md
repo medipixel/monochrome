@@ -9,7 +9,7 @@ mathjax: True
 ### 폐암에 관한 배경지식
 폐암은 우리나라를 포함해 주요국가들에 있어 전체 암 중 발병률은 2~5위 수준이나, 5년 생존율에서 최하위를 차지할 정도로 예후가 좋지 않은 암입니다. 그 이유는 자각증상이 거의 없고 진행 속도가 빠르기 때문에 증상을 인지했을 때에는 이미 전이된 경우가 많기 때문입니다. 
 <figure>
-	<img src="../img/1/lung_cancer_death_ratio.png" alt="alt text">
+	<img src="/img/1/lung_cancer_death_ratio.png" alt="alt text">
 	<figcaption>그림0. 주요 암종별 사망률</figcaption>
 </figure>	
 따라서 전이가 되기 전에 조기 진단해야만 의료비의 감소는 물론 생존율이 증가합니다. 
@@ -21,7 +21,7 @@ NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Serv
 폐 결절은 아래 표와 같이 크게 3가지, 세분화되어 5가지 class로 분류 할 수 있습니다. 이렇듯 결절의 종류를 나눠놓은 이유는 종류에 따라 **악성 가능성**을 판단 할 수 있기 때문입니다. 
 병원에서는 방사선의가 아래 표와 같은 CT 이미지를 보고 결절를 분류합니다. 분명한 분류 기준[2] 을 토대로 판단하지만 주관이 완벽하게 배제될 수는 없기 때문에 분류하는 사람마다 어느 정도 편차가 생기게 됩니다. 그렇기 때문에 이를 고려하는 평가 기준이 필요합니다. 
 <figure>
-	<img src="../img/1/nodule_classes.png" alt="alt text">
+	<img src="/img/1/nodule_classes.png" alt="alt text">
 	<figcaption>그림1. 폐 결절 분류</figcaption>
 </figure>	
 
@@ -35,18 +35,18 @@ NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Serv
 - Scale 
 	- perifissural은 결절 주위 림프절의 존재 여부로 분류합니다. 결절의 크기를 조절하면서 관찰했을 때 축소(x1)된 경우에만 림프절이 관찰되어 perifissural로 분류되지만, 확대(x4)했을 때는 관찰되지 않아 다른 종류의 결절로 분류될 가능성이 있어 보입니다.
 	<figure>
-		<img src="../img/1/perifissural.png" alt="alt text" title="Title Text">
+		<img src="/img/1/perifissural.png" alt="alt text" title="Title Text">
   		<figcaption>그림2. perifissural 결절 이미지 (크기 순서대로 x4, x2, x1) </figcaption>
 	</figure>
 	- non-solid와 part-solid는 solid core의 유무로 분류합니다. 결절의 크기를 조절하면서 관찰했을 때 축소(x1)된 경우에는 solid core가 잘 구분되지 않아 분류가 어렵지만, 확대(x4)했을 때는 명확하게 part-solid를 구분 할 수 있습니다.
 	<figure>
-		<img src="../img/1/non_solid_part_solid.png" alt="alt text" title="Title Text">
+		<img src="/img/1/non_solid_part_solid.png" alt="alt text" title="Title Text">
   		<figcaption>그림3. non-solid 결절(1행), part-solid 결절(2행) </figcaption>
 	</figure>	
 - Stream
 	- CT를 찍으면 3-D로 구성된 이미지 정보를 얻을 수 있습니다. Multi-stream은 이 정보들을 최대한 다양하게 활용하자는 접근 방법입니다. axial, coronal, sagittal 3개의 평면 축을 기준으로 일정 각도만큼 돌렸을 때 생성되는 단면을 입력 데이터로 사용합니다. 이 과정을 통해 단순 axial에 대한 학습을 했을 때보다 더 다양한 결절 형태를 고려 할 수 있게 됩니다. 
 	<figure>
-		<img src="../img/1/augmentation.png" alt="alt text" title="Title Text">
+		<img src="/img/1/augmentation.png" alt="alt text" title="Title Text">
   		<figcaption>그림4. N에 따른 multi-stream 데이터 augmenatation 시각화</figcaption>
 	</figure>	
 
@@ -58,7 +58,7 @@ NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Serv
 - 모델 구조
 	- scale 개수(d) 만큼의 2-D patch를 VGG 기반 모델에 입력 값으로 넣어주며 각각 얻은 feature들을 합쳐서 Fully Connected Layer에서 각 class에 대한 확률을 예측을 합니다. 이 때, 같은 scale에 대한 network 간 parameter는 공유됩니다. 
 	<figure>
-		<img src="../img/1/model.png" alt="alt text" title="Title Text">
+		<img src="/img/1/model.png" alt="alt text" title="Title Text">
   		<figcaption>그림5. 모델 구조</figcaption>
 	</figure>	
 
@@ -66,7 +66,7 @@ NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Serv
 데이터는 class에 따라 나누고 augmentation을 통해 대략 class별 80,000장으로 맞춰줍니다. test 데이터는 $test_{ALL}$, $test_{OBS}$로 두 가지로 나눠서 평가합니다.
 $test_{OBS}$는 각 class 별 개수를 동일하게 맞춰서 만든 데이터셋이고 $test_{ALL}$은 비율에 관계없이 모든 test 데이터셋을 포함합니다.
 <figure>
-	<img src="../img/1/dataset.png" alt="alt text" title="Title Text">
+	<img src="/img/1/dataset.png" alt="alt text" title="Title Text">
 	<figcaption>그림6. 데이터셋 구성</figcaption>
 </figure>	
 
@@ -74,12 +74,12 @@ $test_{OBS}$는 각 class 별 개수를 동일하게 맞춰서 만든 데이터�
 의사, 컴퓨터 간의 Inter-observer variation, F-Score를 구해서 비교합니다. $$test_{OBS}$$ 데이터를 활용하고 평가에 참여하는 의사는 3명($$O_1, O_2, O_3$$) 으로 구성되며 모두가 20년 이상의 경력을 가진 radiology researcher입니다. 그리고 $$O_4$$는 데이터셋에(DLCST) 주어진 annotation으로 설정합니다. 컴퓨터는 scale 별로 학습시킨 모델을 사용합니다.
 - 표1: 의사-의사는 0.59-0.75, 의사-컴퓨터는 성능이 가장 좋은 3-scale에 한정시키면 0.58-0.67로 의사 간 비교 결과의 범위 내에 존재하며 일부 의사-의사 결과보다 더 높은 값을 내는 것으로 보입니다. scale이 많아질 수록 성능이 높아지므로 Multi-scale에 대한 유효성을 실험적으로 보입니다.
 <figure>
-	<img src="../img/1/eval_result2.png" alt="alt text" title="Title Text">
+	<img src="/img/1/eval_result2.png" alt="alt text" title="Title Text">
 	<figcaption>표1. 의사-의사, 의사-컴퓨터 간 inter-observer variation 결과 </figcaption>
 </figure>	
 - 표2: 의사(정답)-의사, 의사(정답)-컴퓨터 간 F-score를 구한 결과로 평균적으로 72.9%, 69.6%의 유사한 결과를 나타냅니다.
 <figure>
-	<img src="../img/1/eval_result1.png" alt="alt text" title="Title Text">
+	<img src="/img/1/eval_result1.png" alt="alt text" title="Title Text">
 	<figcaption>표2. 의사-의사, 의사-컴퓨터 간 F-Score 결과</figcaption>
 </figure>	
 
@@ -87,7 +87,7 @@ $test_{OBS}$는 각 class 별 개수를 동일하게 맞춰서 만든 데이터�
 ### Discussion
 - 타 ML 알고리즘과 비교: 모든 class에 대해서 딥러닝이 잘 예측합니다. Observer study 결과와 비교했을 때 spiculated, part-solid 성능이 크게 낮아졌습니다. 원인은 데이터가 적어서 유사한 class 간의 특징을 모델이 충분히 학습하지 못한 것으로 보이며 다양한 데이터를 추가해 줄 경우 성능이 올라갈 것으로 보입니다. 
 <figure>
-	<img src="../img/1/comparison_to_ML.png" alt="alt text" title="Title Text">
+	<img src="/img/1/comparison_to_ML.png" alt="alt text" title="Title Text">
 	<figcaption>표3. SVM - ConvNet 성능 비교</figcaption>
 </figure>	
 
