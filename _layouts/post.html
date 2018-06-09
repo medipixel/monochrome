@@ -7,6 +7,7 @@ layout: default
 	<time datetime="{{ page.date | date_to_xmlschema }}" class="by-line">{{ page.date | date_to_string }}</time>
 	<div class="content">
 
+		{% include mathjax.html %}
 		{{ content }}
 
 	</div>
