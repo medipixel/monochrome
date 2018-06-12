@@ -2,11 +2,9 @@
 header: Towards automatic pulmonary nodule management in lung cancer screening with deep learning
 mathjax: True
 ---
-<!--more-->
-
 17년 Nature Reviews Cancer에 실린 Francesco Ciompi의 Towards automatic pulmonary nodule management in lung cancer screening with deep learning 논문을 소개드립니다. ([ArXiv link](https://arxiv.org/pdf/1610.09157.pdf)) 이번 포스트에서 소개드릴 논문의 내용은 1) 폐암, 폐결절에 대한 소개 2) 폐 결절의 class 분류 문제에 최초로 딥러닝을 적용한 Multi-stream multi-scale 구조의 소개 3) 의사와 컴퓨터 간 성능 비교로 구성됩니다. 
 
-<!--more-->
+<!--break-->
 
 ***
 ### 폐암에 관한 배경지식
@@ -24,7 +22,7 @@ NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Serv
 병원에서는 방사선의가 아래 표와 같은 CT 이미지를 보고 결절를 분류합니다. 분명한 분류 기준[[4]](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) 을 토대로 판단하지만 주관이 완벽하게 배제될 수는 없기 때문에 분류하는 사람마다 어느 정도 편차가 생기게 됩니다. 그렇기 때문에 이를 고려하는 평가 기준이 필요합니다. 
 <figure>
 	<img src="/img/1/nodule_classes.png" alt="alt text">
-	<figcaption>그림1. 폐 결절 분류</figcaption>
+	<FIGCaption>그림1. 폐 결절 분류</figcaption>
 </figure>	
 
 ### 평가 기준(Inter-observer variability)
