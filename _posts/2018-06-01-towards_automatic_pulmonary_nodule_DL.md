@@ -4,7 +4,7 @@ mathjax: True
 ---
 <!--more-->
 
-기존의 feature를 뽑아서 classic ML 방식으로 폐 결절(nodule)의 class를 분류 문제를 딥러닝의 convolution network를 사용한 새로운 구조(multi-stream multi-scale)를 single system으로 분류하는 방법을 처음으로 제시했습니다. 이 때, 성능이 classic ML보다 나으며 사람 평가 성능과 유사한 수준임을 보입니다.
+17년 Nature Reviews Cancer에 실린 Francesco Ciompi의 Towards automatic pulmonary nodule management in lung cancer screening with deep learning 논문을 [ArXiv link](https://arxiv.org/pdf/1610.09157.pdf 소개드립니다. 이번 포스트에서 소개드릴 논문의 내용은 1) 폐암, 폐결절에 대한 소개 2) 폐 결절의 class 분류 문제에 최초로 딥러닝을 적용한 Multi-stream multi-scale 구조의 소개 3) 의사와 컴퓨터 간 성능 비교로 구성됩니다. 
 
 <!--more-->
 
@@ -112,6 +112,6 @@ $test_{OBS}$는 각 class 별 개수를 동일하게 맞춰서 만든 데이터�
 [3] [대한민국 폐암검진 시범 사업. 보건복지부](http://www.mohw.go.kr/react/al/sal0301vw.jsp?PAR_MENU_ID=04&MENU_ID=0403&CONT_SEQ=342899&page=1) <br>
 [4] [Lung-RADS assessment categories. 2014. The American College of Radiology.](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) <br>
 [5] [Cohens' kappa - Wikipedia](https://en.wikipedia.org/wiki/Cohen%27s_kappa) <br>
-[6] Ciompi, F. et al. Towards automatic pulmonary nodule management in lung cancer screening with deep learning. Nature Reviews Cancer. <br>
+[6] [Ciompi, F. et al. Towards automatic pulmonary nodule management in lung cancer screening with deep learning. Nature Reviews Cancer.](https://arxiv.org/pdf/1610.09157.pdf) <br>
 [7] [Onno Mets, Robin Smithuis. 2017 Guideline for Pulmonary nodules. 2017. The Academical Medical Centre.](http://www.radiologyassistant.nl/en/p5905aff4788ef/fleischner-2017-guideline-for-pulmonary-nodules.html) <br>
 [8] [강은영. 저선량 흉부 컴퓨터단층촬영을 이용한 폐암 선별검사: 영상의학 측면의 최신지견. 대한의사협회지.2015.](https://synapse.koreamed.org/pdf/10.5124/jkma.2015.58.6.523) <br>
