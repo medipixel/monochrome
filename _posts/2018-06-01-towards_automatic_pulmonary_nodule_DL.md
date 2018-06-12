@@ -4,7 +4,7 @@ mathjax: True
 ---
 <!--more-->
 
-17년 Nature Reviews Cancer에 실린 Francesco Ciompi의 Towards automatic pulmonary nodule management in lung cancer screening with deep learning 논문을 소개드립니다. ([ArXiv link](https://arxiv.org/pdf/1610.09157.pdf)) 소개드립니다. 이번 포스트에서 소개드릴 논문의 내용은 1) 폐암, 폐결절에 대한 소개 2) 폐 결절의 class 분류 문제에 최초로 딥러닝을 적용한 Multi-stream multi-scale 구조의 소개 3) 의사와 컴퓨터 간 성능 비교로 구성됩니다. 
+17년 Nature Reviews Cancer에 실린 Francesco Ciompi의 Towards automatic pulmonary nodule management in lung cancer screening with deep learning 논문을 소개드립니다. ([ArXiv link](https://arxiv.org/pdf/1610.09157.pdf)) 이번 포스트에서 소개드릴 논문의 내용은 1) 폐암, 폐결절에 대한 소개 2) 폐 결절의 class 분류 문제에 최초로 딥러닝을 적용한 Multi-stream multi-scale 구조의 소개 3) 의사와 컴퓨터 간 성능 비교로 구성됩니다. 
 
 <!--more-->
 
