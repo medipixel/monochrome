@@ -4,32 +4,31 @@ mathjax: True
 ---
 <!--more-->
 
-기존의 feature를 뽑아서 classic ML 방식으로 폐 결절(nodule)의 class를 분류했던 문제를 딥러닝의 convolution network를 사용한 새로운 구조(multi-stream multi-scale)를 single system으로 분류하는 방법을 처음으로 제시했습니다. 이 때, 성능이 classic ML보다 나으며 사람 평가 성능의 신뢰도 내에 있음을 보입니다.
+기존의 feature를 뽑아서 classic ML 방식으로 폐 결절(nodule)의 class를 분류 문제를 딥러닝의 convolution network를 사용한 새로운 구조(multi-stream multi-scale)를 single system으로 분류하는 방법을 처음으로 제시했습니다. 이 때, 성능이 classic ML보다 나으며 사람 평가 성능과 유사한 수준임을 보입니다.
 
 <!--more-->
 
 ***
 ### 폐암에 관한 배경지식
-폐암은 우리나라를 포함해 주요국가들에 있어 전체 암 중 발병률은 2~5위 수준이나, 5년 생존율에서 최하위를 차지할 정도로 예후가 좋지 않은 암입니다. 그 이유는 자각증상이 거의 없고 진행 속도가 빠르기 때문에 증상을 인지했을 때에는 이미 전이된 경우가 많기 때문입니다. 
+14년에 발표한 2012년 암 통계 자료에 따르면, 폐암 발생률은 남자는 전체 암의 13.7%를 차지하며 위암 대장암에 이어 세 번째이고, 여자는 6.0%를 차지하며 갑상선암, 유방암, 대장암, 위암에 이어 다섯 번째이다. 그러나 암사망은 남자의 경우 폐암이 전체 암 사망의 26.6%를 차지하고 여자의 경우 16.5%를 차지하여 남녀 모두 암종별 사망률 1위입니다. 이처럼 높은 사망률의 원인은 다른 암과 비교했을 때 같은 병기별 생존율도 낮을 뿐 아니라 처음 진단 시 높은 병기가 많기 때문입니다.[1] 따라서 가능한 이른 병기의 폐암을 발견하는 것이 폐암환자의 생존율 뿐 아니라 의료비도 감소시킬 수 있습니다.
 <figure>
 	<img src="/img/1/lung_cancer_death_ratio.png" alt="alt text">
 	<figcaption>그림0. 주요 암종별 사망률</figcaption>
 </figure>	
-따라서 전이가 되기 전에 조기 진단해야만 의료비의 감소는 물론 생존율이 증가합니다. 
-미국에서는 NCI (National Cancer Institute) 의 주도 하에 NLST (National Lung Screening Trial)[[1]](https://www.nejm.org/doi/full/10.1056/nejmoa1102873) 을 진행한 바 있습니다. 2002년부터 약 2년간 총 53,454명의 흡연력이 있는 55 - 74세의 일반인에 대해 저선량 CT로 Lung screening을 진행하였고 그 결과 기존 X-ray 검진 대비  15~20% 사망률을 줄일 수 있다는 결과를 얻었습니다.  
+미국에서는 NCI (National Cancer Institute) 의 주도 하에 NLST (National Lung Screening Trial)[[2]](https://www.nejm.org/doi/full/10.1056/nejmoa1102873) 을 진행한 바 있습니다. 2002년부터 약 2년간 총 53,454명의 흡연력이 있는 55 - 74세의 일반인에 대해 저선량 CT로 Lung screening을 진행하였고 그 결과 기존 X-ray 검진 대비  15~20% 사망률을 줄일 수 있다는 결과를 얻었습니다.  
 NLST의 성공적인 결과로 2004년부터 미국 USPSTF (U.S. Preventive Service Task Force) 에서는 30갑년 흡연력을 가진 55세 - 80세 고위험군을 대상으로 매년 저선량 CT를 통해 스크리닝 테스트를 받을 것을 권장하고 있습니다. 
-대한민국에서도 폐암 검진 시범 서비스를 2017년부터 2018년까지 2년에 걸쳐 약 8,000명의 고위험군 대상으로 진행하였으며, 2019년부터는 6대암에 편입하여 만 55∼74세 흡연 고위험군을 대상으로 무료 검진이 가능하도록 한다고 합니다. 
+대한민국에서도 폐암 검진 시범 서비스를 2017년부터 2018년까지 2년에 걸쳐 약 8,000명의 고위험군 대상으로 진행하였으며[[3]](http://www.mohw.go.kr/react/al/sal0301vw.jsp?PAR_MENU_ID=04&MENU_ID=0403&CONT_SEQ=342899&page=1), 2019년부터는 6대암에 편입하여 만 55∼74세 흡연 고위험군을 대상으로 무료 검진이 가능하도록 한다고 합니다. 
 
 ### 폐 결절(nodule) 분류 
 폐 결절은 아래 표와 같이 크게 3가지, 세분화되어 5가지 class로 분류 할 수 있습니다. 이렇듯 결절의 종류를 나눠놓은 이유는 종류에 따라 **악성 가능성**을 판단 할 수 있기 때문입니다. 
-병원에서는 방사선의가 아래 표와 같은 CT 이미지를 보고 결절를 분류합니다. 분명한 분류 기준[[2]](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) 을 토대로 판단하지만 주관이 완벽하게 배제될 수는 없기 때문에 분류하는 사람마다 어느 정도 편차가 생기게 됩니다. 그렇기 때문에 이를 고려하는 평가 기준이 필요합니다. 
+병원에서는 방사선의가 아래 표와 같은 CT 이미지를 보고 결절를 분류합니다. 분명한 분류 기준[[4]](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) 을 토대로 판단하지만 주관이 완벽하게 배제될 수는 없기 때문에 분류하는 사람마다 어느 정도 편차가 생기게 됩니다. 그렇기 때문에 이를 고려하는 평가 기준이 필요합니다. 
 <figure>
 	<img src="/img/1/nodule_classes.png" alt="alt text">
 	<figcaption>그림1. 폐 결절 분류</figcaption>
 </figure>	
 
 ### 평가 기준(Inter-observer variability)
-사람마다의 편차로 인해 분류 결과가 다를 수 있다는 것을 앞서 살펴봤습니다. 이 논문에서는 이러한 편차를 고려한 정확도를 고려하기 위해서 서로 다른 평가자의 동의 정도를 나타내는 통계량인 Cohen k statistics[[6]](https://en.wikipedia.org/wiki/Cohen%27s_kappa) 를 도입해서 의사 vs 의사, 의사 vs 컴퓨터 간의 성능을 측정합니다. 궁극적으로 **논문에서 보이고자 하는 내용은 의사, 컴퓨터 간의 평가 결과가 의사들 간의 결과 못지 않다는 것입니다.**
+사람마다의 편차로 인해 분류 결과가 다를 수 있다는 것을 앞서 살펴봤습니다. 이 논문에서는 이러한 편차를 고려한 정확도를 고려하기 위해서 서로 다른 평가자의 동의 정도를 나타내는 통계량인 Cohen k statistics[[5]](https://en.wikipedia.org/wiki/Cohen%27s_kappa) 를 도입해서 의사 vs 의사, 의사 vs 컴퓨터 간의 성능을 측정합니다. 궁극적으로 **논문에서 보이고자 하는 내용은 의사, 컴퓨터 간의 평가 결과가 의사들 간의 결과 못지 않다는 것입니다.**
 - Cohen k statistics: $$\kappa \equiv \dfrac {p_o - p_e} {1 - p_e} = 1 - \dfrac {1 - p_o} {1 - p_e}$$ <br>
 ($$p_o$$: the observed proportionate agreement(accuracy), $$p_e$$: the probability of random agreement) 
 
@@ -108,9 +107,11 @@ $test_{OBS}$는 각 class 별 개수를 동일하게 맞춰서 만든 데이터�
 
 
 ### Reference
-[1] [NLST research team. Reduced Lung-Cancer Mortality with Low-Dose Computed Tomographic Screening. N Engl J. 2011](https://www.nejm.org/doi/full/10.1056/nejmoa1102873)<br>
-[2] [Lung-RADS assessment categories. 2014. The American College of Radiology.](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) <br>
-[3] [Onno Mets, Robin Smithuis. 2017 Guideline for Pulmonary nodules. 2017. The Academical Medical Centre.](http://www.radiologyassistant.nl/en/p5905aff4788ef/fleischner-2017-guideline-for-pulmonary-nodules.html) <br>
-[4] Ciompi, F. et al. Towards automatic pulmonary nodule management in lung cancer screening with deep learning. Nature Reviews Cancer. <br>
-[5] [강은영. 저선량 흉부 컴퓨터단층촬영을 이용한 폐암 선별검사: 영상의학 측면의 최신지견. 대한의사협회지.2015.](https://synapse.koreamed.org/pdf/10.5124/jkma.2015.58.6.523) <br>
-[6] [Cohens' kappa - Wikipedia](https://en.wikipedia.org/wiki/Cohen%27s_kappa)
+[1] [Kyu-Won Jung. Cancer Statistics in Korea: Incidence, Mortality, Survival and Prevalence in 2015](https://www.e-crt.org/journal/view.php?number=2850)
+[2] [NLST research team. Reduced Lung-Cancer Mortality with Low-Dose Computed Tomographic Screening. N Engl J. 2011](https://www.nejm.org/doi/full/10.1056/nejmoa1102873)<br>
+[3] [대한민국 폐암검진 시범 사업. 보건복지부](http://www.mohw.go.kr/react/al/sal0301vw.jsp?PAR_MENU_ID=04&MENU_ID=0403&CONT_SEQ=342899&page=1)
+[4] [Lung-RADS assessment categories. 2014. The American College of Radiology.](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) <br>
+[5] [Cohens' kappa - Wikipedia](https://en.wikipedia.org/wiki/Cohen%27s_kappa)
+[6] Ciompi, F. et al. Towards automatic pulmonary nodule management in lung cancer screening with deep learning. Nature Reviews Cancer. <br>
+[7] [Onno Mets, Robin Smithuis. 2017 Guideline for Pulmonary nodules. 2017. The Academical Medical Centre.](http://www.radiologyassistant.nl/en/p5905aff4788ef/fleischner-2017-guideline-for-pulmonary-nodules.html) <br>
+[8] [강은영. 저선량 흉부 컴퓨터단층촬영을 이용한 폐암 선별검사: 영상의학 측면의 최신지견. 대한의사협회지.2015.](https://synapse.koreamed.org/pdf/10.5124/jkma.2015.58.6.523) <br>
