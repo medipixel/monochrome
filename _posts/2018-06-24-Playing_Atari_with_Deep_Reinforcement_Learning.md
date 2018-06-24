@@ -27,7 +27,7 @@ Q-function을 approximate하기 위해 Convolution Neural Network (이하 CNN) �
 본 연구의 대상이 된 아타리 게임 일부의 화면은 아래와 같습니다. 
 
 <figure>
-	<img src="/img/2/atati_example.png" alt="alt text">
+	<img src="/img/2/atari_example.png" alt="alt text">
 </figure>	
 
 
@@ -265,11 +265,4 @@ OpenAI Gym에서 아타리에 대한 강화학습 모델을 구현 시 env = gym
 
 
 ### References
-[1] [Kyu-Won Jung. Cancer Statistics in Korea: Incidence, Mortality, Survival and Prevalence in 2015](https://www.e-crt.org/journal/view.php?number=2850) <br>
-[2] [NLST research team. Reduced Lung-Cancer Mortality with Low-Dose Computed Tomographic Screening. N Engl J. 2011](https://www.nejm.org/doi/full/10.1056/nejmoa1102873)<br>
-[3] [대한민국 폐암검진 시범 사업. 보건복지부](http://www.mohw.go.kr/react/al/sal0301vw.jsp?PAR_MENU_ID=04&MENU_ID=0403&CONT_SEQ=342899&page=1) <br>
-[4] [Lung-RADS assessment categories. 2014. The American College of Radiology.](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/LungRADS_AssessmentCategories.pdf?la=en) <br>
-[5] [Cohens' kappa - Wikipedia](https://en.wikipedia.org/wiki/Cohen%27s_kappa) <br>
-[6] [Ciompi, F. et al. Towards automatic pulmonary nodule management in lung cancer screening with deep learning. Nature Reviews Cancer.](https://arxiv.org/pdf/1610.09157.pdf) <br>
-[7] [Onno Mets, Robin Smithuis. 2017 Guideline for Pulmonary nodules. 2017. The Academical Medical Centre.](http://www.radiologyassistant.nl/en/p5905aff4788ef/fleischner-2017-guideline-for-pulmonary-nodules.html) <br>
-[8] [강은영. 저선량 흉부 컴퓨터단층촬영을 이용한 폐암 선별검사: 영상의학 측면의 최신지견. 대한의사협회지.2015.](https://synapse.koreamed.org/pdf/10.5124/jkma.2015.58.6.523) <br>
+will be updated soon...
