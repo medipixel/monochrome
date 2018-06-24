@@ -152,7 +152,7 @@ TD-Gammon 아키텍처에서 시작합니다. 여기에서는 experience의 on-p
 TD-Gammon과는 달리 우리는 experience replay 기법을 사용해서 에이전트의 각 단계에서의 경험 et = (st, at, rt, st+1) 을 replay memory (데이터셋 D = e1, …, eN) 에 저장합니다. 알고리즘의 내부 반복문이 돌아갈때 Q-learning 업데이트 (미니배치 업데이트) 를 경험 샘플 e ~ D 에 적용합니다. 경험 샘플은 저장된 샘플들 중에 랜덤하게 추출합니다. Experience replay를 수행한 후에 에이전트는 ε-greedy 정책에 의해 액션을 선택하고 실행합니다. 신경망에 입력으로 임의의 길이의 history를 넣어주는 것은 어려움이 있을 수 있기 때문에 우리의 Q-function 은 함수 Φ 에 의해 생성된 정해진 길이의 history를 이용합니다. 우리가 Deep Q-Learning이라고 명명한 전체 알고리즘은 아래와 같습니다. 
 
 <figure>
-	<img src="/img/2/algorithm.png" alt="alt text">
+	<img src="/img/2/Algorithm.png" alt="alt text">
 </figure>	
 
 이러한 접근방법은 표준 Q-learning에 비해 몇가지 장점을 가집니다.
