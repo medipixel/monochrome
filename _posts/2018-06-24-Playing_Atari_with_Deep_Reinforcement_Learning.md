@@ -169,22 +169,23 @@ NN을 이용하여 $Q$를 파라미터화하는 방법에는 몇가지 방법이
 우리는 이와 같이 우리의 방식에 따라 학습된 CNN을 DQN (Deep Q-Network) 이라고 명명합니다.
 
 ### 5. Experiments
-##### Reward Clipping
+Reward Clipping
+
 게임에 적용한 단 한가지 변화는 보상 체계입니다. 게임마다 점수의 스케일이 다르기 때문에 양의 보상은 1, 음의 보상은 -1로 통일시켰습니다. 즉 reward clipping을 한 것인데, 그 이유는 오류의 도함수 (error derivatives) 의 스케일을 제한하고, 모든 게임에 동일한 learning rate를 적용할 수 있기 때문입니다. 물론 보상의 강도를 제한함으로써 에이전트의 성능에 제약을 가져올 수는 있습니다. 
 
-##### Hyperparameters (모든 게임에 공통)
+Hyperparameters (모든 게임에 공통)
 
 최적화 알고리즘으로는 RMSProp을, Minibatch의 크기는 32를, 학습 도중 behavior policy 는 ε-greedy 를 사용하였습니다.
 ε 의 값은 처음부터 100만 프레임까지는 1에서 0.1까지 동일한 비율로 감소하게 하였고, 100만 프레임 이후에는 0.1로 고정하였습니다. 초기에는 exploration을 주로 하고, 진행에 따라 exploitation 비중을 늘려준 것입니다. 
 학습은 1,000만 프레임까지 진행하였는데, Replay Memory의 사이즈는 100만개이며, 100만개가 가득 차면 가장 오래된 경험부터 메모리에서 사라지게 됩니다. 
 
-##### Frame Skipping : 유일하게 다르게 설정한 Hyperparameter
+Frame Skipping : 유일하게 다르게 설정한 Hyperparameter
 
 Frame skipping을 적용함으로써 에이전트가 모든 프레임을 보게할 것이 아니라 $k$번째 프레임을 보고 액션을 취하게 하는데, 스킵한 프레임에서도 이 액션을 반복하게 됩니다. 
 액션의 선택을 $k$번 반복하는 것보다 한번만 하는 것이 연산을 훨씬 더 줄여주게 됩니다. 이로 인해 거의 게임 플레이의 속도를 $k$배로 늘려줄 수 있습니다. 
 모든 게임에 $k = 4$로 설정하였으나, Space Invader에만 $k = 3$ 으로 설정하였는데, 그 이유는 깜빡깜빡하게 설정되어 있는 레이저가 프레임을 스킵하는 순간에 보이지 않는 경우가 많이 생겼기 때문입니다. 바로 이것이 유일하게 다르게 설정한 hyperparameter입니다. 
 
-OpenAI Gym에서 아타리에 대한 강화학습 모델을 구현 시 ```env = gym.make(‘BreakoutDeterministic-v4’)```를 선택하면 됩니다. ```v4```가 바로 $k=4$ 인 frame skipping을 미리 구현해 놓은 것입니다. `v0`은 랜덤한 frame skipping (2, 3, 4) 이라고 합니다.
+참고로, OpenAI Gym에서 아타리에 대한 강화학습 모델을 구현 시 ```env = gym.make(‘BreakoutDeterministic-v4’)```를 선택하면 됩니다. ```v4```가 바로 $k=4$ 인 frame skipping을 미리 구현해 놓은 것입니다. `v0`은 랜덤한 frame skipping (2, 3, 4) 이라고 합니다.
 
 #### 5.1 Training and Stability
 
