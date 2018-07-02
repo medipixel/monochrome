@@ -2,12 +2,12 @@
 header: Playing Atari with Deep Reinforcement Learning
 mathjax: True
 ---
-본 연구는 강화학습에 딥러닝을 도입한 최초의 연구입니다. DQN (Deep Q-Network) 에 CNN (Convolutional Neural Network) 을 접목하여 아타리 게임의 화면을 직접 입력으로 받아 end-to-end로 처리하였으며, state간의 높은 상관관계를 experience replay를 활용하여 해결하였습니다. 그 결과 상당수의 아타리 게임에서 사람 이상의 성능을 내는 결과를 낼 수 있었습니다. 
+본 연구는 강화학습에 딥러닝을 도입한 최초의 연구입니다. ([Paper](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf)) DQN (Deep Q-Network) 에 CNN (Convolutional Neural Network) 을 접목하여 아타리 게임의 화면을 직접 입력으로 받아 end-to-end로 처리하였으며, state간의 높은 상관관계를 experience replay를 도입하여 해결하였습니다. 그 결과 상당수의 아타리 게임에서 사람 이상의 성능을 내는 결과를 낼 수 있었습니다. 
 
 <!--break-->
 
 ***
-### 0. ABSTRACT
+### 0. Abstract
 본 연구에서는 강화학습을 이용하여 최초로 고차원의 RGB 입력으로부터 성공적으로 control policy를 학습해낸 DQN (Deep Q-Network) 모델을 제안합니다.
 
 Q-function을 approximate하기 위해 Convolution Neural Network (이하 CNN) 모델을 사용하였습니다. 아타리 게임의 raw pixel만을 입력으로 받아 미래의 미래의 보상을 예측하는 value function을 출력으로 내게 됩니다. 학습은 딥마인드에서 고안한 변형된 Q-learning (DQN) 을 활용하였습니다. 
@@ -68,11 +68,11 @@ Optimal action-value function (= Optimal Q-function) 은 아래와 같이 정의
 
 <center> $Q^{\ast}(s,a) = \mathbf{E}_{s' \sim \mathcal{E}} \big [r+\gamma \max_{a'} Q^{\ast}(s',a')|s,a \big]$ </center> <br>
 
-강화학습의 기본적인 아이디어는 value iteration 알고리즘으로, Bellman equation을 반복적으로 업데이트로 이용함으로써 action-value function을 예측하는 것입니다. 
+강화학습 알고리즘의 기본적인 아이디어는 Bellman equation을 반복적으로 업데이트로 이용함으로써 action-value function을 예측하는 것입니다. 
 
 <center> $Q_{i+1}(s,a) = \mathbf{E} \big [r + \gamma \max_{a'} Q_i(s',a')|s,a \big ]$ </center> <br>
 
-Value iteration 알고리즘에 의하면 업데이트를 무한번 시도하면 optimal action-value function으로 수렴하게 됩니다.
+이러한 Value iteration 알고리즘은 업데이트를 무한히 시도하면 optimal action-value function으로 수렴하게 됩니다.
 
 <center> $Q_i \rightarrow Q^{\ast} \text{as} \ i \rightarrow \infty$ </center> <br>
 
@@ -140,7 +140,7 @@ TD-Gammon과는 달리 우리는 experience replay 기법을 사용해서 에이
 On-policy 학습을 할때 현재의 파라미터들이 다음 데이터 샘플을 결정하는데, 이 다음 데이터 샘플들은 그 파라미터들이 학습된 샘플들입니다. 예를 들어 만약 최대화 액션이 왼쪽으로 움직이는 것이면 학습 샘플은 왼쪽의 샘플에 의해 좌지우지되게 될 것입니다. 만약 최대화 액션이 오른쪽으로 움직이면 학습 분포 역시 이동하게 됩니다. 원치 않는 피드백 루프가 생기고 파라미터들은 local minimum에 빠지거나 재앙적으로 발산할 수 있습니다.
 Experience replay를 사용함으로써 기존의 상태들에 의해 behavior distribution이 평균화되고 학습을 부드럽게 하며 파라미터들이 심하게 흔들리거나 발산하는 것을 피할 수 있습니다. Experience replay로 학습 시에는 (현재의 파라미터들은 샘플을 생성하는데 사용되는 파라미터들과 다르기 때문에) Q-learning의 선택에 모티베이션을 주는 off-policy를 학습할 필요가 있다는 사실을 잊지 말아야 합니다. 
 
-Replay memory에는 가장 최근의 $N$개의 experience tuple만 저장한 후, 업데이트 수행시에 $D$로부터의 샘플링은 랜덤하게 균일하게 합니다. 이 접근법은 사실 다소 제한된 방식입니다. 왜냐하면 1) 메모리 버퍼가 중요한 transition을 구별하지 못하며, 2) 유한한 메모리 크기 ($N$) 로 인해 항상 최신의 transition으로 덮어쓰기 때문입니다. 균일한 샘플링은 replay memory 내의 모든 transition에 동일한 중요도를 부여합니다. 보다 정교한 샘플링 전략은 마치 prioritized sweeping에서와 같이 우리가 가장 많이 학습을 한 transition에게 더 큰 중요도를 부여하는 것이 될 것입니다. 
+Replay memory에는 가장 최근의 $N$개의 experience tuple만 저장한 후, 업데이트 수행시에 $D$로부터의 샘플링은 랜덤하게 균일하게 합니다. 이 접근법은 사실 다소 제한된 방식입니다. 왜냐하면 1) 메모리 버퍼가 중요한 transition을 구별하지 못하며, 2) 유한한 메모리 크기 ($N$) 로 인해 항상 최신의 transition으로 덮어쓰기 때문입니다. 균일한 샘플링은 replay memory 내의 모든 transition에 동일한 중요도를 부여합니다. 비록 이 연구에서 도입하지는 않았지만, 보다 정교한 샘플링 전략은 가장 많이 학습을 할 transition에게 더 큰 중요도를 부여하는 [prioritized experience replay] (https://arxiv.org/pdf/1511.05952.pdf) 과 같은 것이 있을 것입니다. 
 
 #### 4.1 Preprocessing and Model Architecture
 
@@ -241,7 +241,3 @@ OpenAI Gym에서 아타리에 대한 강화학습 모델을 구현 시 ```env = 
 * 입력으로 raw pixel만을 이용하고 CNN을 이용하여 강화학습시킨 최초의 성공적인 연구입니다.
 * DQN 에 experience replay memory 와 stochastic minibatch updates 를 성공적으로 시도하였습니다. 
 * 7개의 게임에 대해 동일한 아키텍쳐와 하이퍼파라미터를 이용해 6개의 게임에 대해 최고 수준의 성능을 보였습니다.
-
-
-### References
-will be updated soon...
