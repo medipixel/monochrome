@@ -2,7 +2,7 @@
 header: Human-level control through deep reinforcement learning
 mathjax: True
 ---
-이 논문은 2013년의 [“Playing Atari with Deep Reinforcement Learning”] (https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) 연구 내용을 좀더 정교하게 다듬고 새로운 내용 몇가지를 추가해 2015년 5월에 [Nature 에 게재된 논문] (https://www.nature.com/articles/nature14236)입니다. 따라서 본 리뷰에서는 2013년 연구와 중복되는 내용은 대부분 배제하고 새로운 내용 위주로 정리하였습니다. 2013년 연구에 대한 리뷰는 [직전의 포스팅] (https://medipixel.github.io/Playing_Atari_with_Deep_Reinforcement_Learning)을 참고하시면 됩니다. 이 논문에서 새로 추가된 내용의 핵심은 target Q-network, Error clipping 등이며, 2013년보다 더 깊은 네트워크와 학습 시간을 이용하여 더 많은 게임에 DQN 알고리즘을 적용하였습니다.
+이 논문은 2013년의 [“Playing Atari with Deep Reinforcement Learning”](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) 연구 내용을 좀더 정교하게 다듬고 새로운 내용 몇가지를 추가해 2015년 5월에 [Nature 에 게재된 논문](https://www.nature.com/articles/nature14236)입니다. 따라서 본 리뷰에서는 2013년 연구와 중복되는 내용은 대부분 배제하고 새로운 내용 위주로 정리하였습니다. 2013년 연구에 대한 리뷰는 [직전의 포스팅](https://medipixel.github.io/Playing_Atari_with_Deep_Reinforcement_Learning)을 참고하시면 됩니다. 이 논문에서 새로 추가된 내용의 핵심은 target Q-network, Error clipping 등이며, 2013년보다 더 깊은 네트워크와 학습 시간을 이용하여 더 많은 게임에 DQN 알고리즘을 적용하였습니다.
 
 <!--break-->
 
