@@ -61,12 +61,15 @@ Attention을 사용하면 RNN와 같이 시간에 대한 의존성이 없기 때
 ***
 ### Attention Mechanism
 수식, 그림으로 기본적인 Attention Mechanism이 어떻게 이루어지는지 살펴보겠습니다.
-아래 수식은 많은 논문들에서 공통적으로 사용하고 있는 Attention에 대한 수식적 정의입니다. 
+아래 수식은 많은 논문들에서 공통적으로 정의하는 Attention을 나타냅니다.
 
-$$\begin{align}
-  &\text{Attention}(Q,K,V) = \text{softmax}(\dfrac {QK^T} {\sqrt d_k})  \\\ 
-  & (Q: \text{Query},\ K: \text{Key},\ V: \text{Value},\ d_k: \text{dimension of K}) 
- \end{align}$$
+$$\text{Attention}(Q,K,V) = \text{softmax}(\dfrac {QK^T} {\sqrt d_k})$$ 
+$$(Q: \text{Query},\ K: \text{Key},\ V: \text{Value},\ d_k: \text{dimension of K})$$
+<figure>
+	<img src="/img/3/attention_mechanism.png" alt="alt text">
+	<figcaption>그림4. Attention Mechanism</figcaption>
+</figure>	
+
 
 $Q, K, V$는 어떤 정보이며 $K, V$는 쌍으로 같이 다니는 값이라고 생각하시면 됩니다.
 Attention을 통해서 저희가 최종적으로 하고 싶은 건 $V$ 정보에 가중치를 줘서 원하는 정보만(앞서 문단에 진하게 표시된 단어들!) 얻는 것입니다. 어떻게 얻는지 아래 수식을 통해 살펴 보겠습니다.
@@ -76,12 +79,8 @@ Attention을 통해서 저희가 최종적으로 하고 싶은 건 $V$ 정보에
 - $\text{softmax}(\dfrac {QK^T} {d_k})$: 유사도를 가중치로 바꿔줍니다.
 - $\text{softmax}(\dfrac {QK^T} {d_k})V$: 구한 유사도를 $V$에 반영해줍니다.
 
-즉, $V$에서 필요한 부분에 가중치를 주고 싶은데, 이를 $V$의 쌍인 $K$와 $Q$와의 관계를 통해서 정의하고 싶은 것입니다.  그림으로 나타내면 아래와 같습니다.
+즉, $V$에서 필요한 부분에 가중치를 주고 싶은데, 이를 $V$의 쌍인 $K$와 $Q$와의 관계를 통해서 정의하고 싶은 것입니다. 그림은 수식을 표현해놓았고 여기에서 mask는 무시하셔도 됩니다.
 
-<figure>
-	<img src="/img/3/attention_mechanism.png" alt="alt text">
-	<figcaption>그림4. Attention Mechanism</figcaption>
-</figure>	
 
 많은 논문들에서 $K,V$는 같게 두는 경우가 많으며 여기서 가장 중요한 점은 $Q, K$의 관계를 어떻게 정의 할 것이냐 입니다. 관계가 유의미해야 가중치가 유의미해 질 것이니까요. 어떤 식으로 논문들에서 고려하는 지는 예제로 살펴보도록 하겠습니다.
 
@@ -91,37 +90,36 @@ Attention을 통해서 저희가 최종적으로 하고 싶은 건 $V$ 정보에
 Seq2Seq2는 기본적으로 Encoder, Decoder로 구성됩니다. Encoder에서 영어를 입력 받은 뒤 정보를 Decoder에 넘겨줘서 한글로 번역하는 과정을 거칩니다. 앞에서, RNN이 문장이 길어 짐에 따른 어려움을 잠깐 직관적으로 봤고 Encoder, Decoder에도 RNN이 사용되기 때문에 여기에 Attention이 어떻게 활용 될 수 있을지 살펴보겠습니다.
 
 RNN에 대해서 잠깐 살펴보시죠. Encoder, Decoder는 아래 그림 및 수식으로 구성이 됩니다. 
-보시면 Decoder의 hidden state $s_{t'}$는 $s_{t'-1}$에 의존적입니다. 그리고 이전 시간을 따라가보면 $s_1$은 Encoder의 hidden state, $h_t$에 의존적임을 알 수 있습니다.
-그리고 Encoder의 hidden state, $h_t$는 이전 $h_{t-1}$의 값에 의존적이죠. 
-- $y_{t'} = g(s_{t'-1})$
-- $s_{t'} = f(s_{t'-1}, y_{t'-1})$
-- $s_1 = f(h_t, y_0)$
-- $h_t = k(h_{t-1}, x_t)$
+보시면 Decoder와 Encoder의 hidden state($s_{t'}, h_{t}$)는 모두 이전 시간의 hidden state($s_{t'-1}, h_{t-1}$)에 의존적입니다. 시간 축을 따라서 Encoder의 정보가 쭉 전달되고 이를 Decoder에서 받아서 쭉 전달하는 형태입니다.
 
 <figure>
-	<img src="/img/3/rnn.png" alt="alt text">
+	<img src="/img/3/seq2seq.png" alt="alt text">
 	<figcaption>그림5. Basic Seq2Seq 구조</figcaption>
 </figure>	
 
-여기서 Encoder의 정보가 Decoder에 전달될 때 손실이 생긴다고 가정을 해보죠. 그럼, Encoder의 정보를 직접적으로 전달해주는 방법을 생각해 볼 수 있지 않을까요? 
-Attention으로요. 근데 위에서 살펴 본 것처럼 Attention은 $Q, K, V$가 필요합니다. 정해봅시다.
+앞서 RNN의 일정 길이 이상의 정보 전달 시에 성능이 하락한 것을 살펴봤습니다. 이로부터  Encoder의 정보가 Decoder에 전달될 때 손실이 생긴다고 가정을 해보죠. 그럼, Encoder의 정보를 직접적으로 전달해주는 방법을 생각해 볼 수 있지 않을까요?  Attention으로요. 
+
+근데 위에서 살펴 본 것처럼 Attention은 $Q, K, V$가 필요합니다. 정해보겠습니다.
 
 전달해 줄 정보는 Encoder의 정보이므로 $V=K=(h_1, h_2, ..., h_t)$가 될 것이고 $V$는 $K$와 같다고 놓습니다. $Q$는 Output을 결정하는 직접적인 값이 되어야 가중치를 통해 부족한 정보를 더 전달해 줄 수 있을 것입니다. 따라서 $Q$는 Decoder의 hidden state인 $s_{t'-1}$로 정합니다. $s_{t'-1}$이 $s_{t'}$를 구할 때 사용되기 때문에, Encoder의 정보와의 관계를 고려해서 $s_{t'}$에 필요한 정보를 더 전달해 줄 수 있게 됩니다. 
 
+
 <figure>
-	<img src="/img/3/rnn.png" alt="alt text">
+	<img src="/img/3/seq2seq_attention.png" alt="alt text">
 	<figcaption>그림6. Seq2Seq with Attention</figcaption>
 </figure>	
 
+결과적으로 위와 같은 형태의 모델이 되며 성능을 비교했을 때 RNN에 비해 입력 문장이 길어질 경우 성능 하락이 적음을 보입니다.
+
 <figure>
-	<img src="/img/3/rnn.png" alt="alt text">
+	<img src="/img/3/attention_perform.png" alt="alt text">
 	<figcaption>그림7. Attention 유무에 따른 성능 비교</figcaption>
 </figure>	
 
 
 #### 2) 예시2. Style-token
 약간 문제를 바꿔서 TTS(Text To Speech) 모델에서 Attention이 어떻게 사용되었는지 살펴보도록 하겠습니다. 
-Style-token을 활용하면  텍스트를 음성으로 변환이 가능하며 이 때, 사람의 음성 스타일(억양, 톤,...)을 입혀줄 수 있습니다.([데모](https://google.github.io/tacotron/publications/global_style_tokens/)) 
+Style-Token을 활용하면  텍스트를 음성으로 변환이 가능하며 이 때, 사람의 음성 스타일(억양, 톤,...)을 입혀줄 수 있습니다.([데모](https://google.github.io/tacotron/publications/global_style_tokens/)) 
 
 모델을 간략하게만 소개하면 학습 시에 입력 값으로 텍스트와 오디오가 함께 들어옵니다. 오디오는 단순 Loss를 구하기 위한 label 역할을 한다고 보셔도 되고 텍스트가 위에서 소개한 Seq2Seq with Attention 구조를 통과하면서 오디오를 생성합니다. 이는 기본적인 Tacotron 구조[[8]](https://arxiv.org/pdf/1703.10135.pdf)로 TTS 성능이 좋긴 하지만 특정 사람의 스타일은 학습이 되지 않아 기계적인 음성이 주로 생성됩니다. 
 
@@ -133,16 +131,18 @@ Style-token을 활용하면  텍스트를 음성으로 변환이 가능하며 �
 이 embedding feature는 어떤 token(latent vector)들의 조합으로 이루어진다고 가정을 하면 우리는 token을 random하게 생성한 뒤 조합하는 방식을 통해 스타일을 나타낼 수 있습니다. 이를 GST(Global Style Token)이라고 합시다. 
 우린 GST를 가지고 어떤 전달하고자 하는 정보를 만들 것이기 때문에 $V=K=$ GST가 될 것입니다. 이 때도, $V$와 $K$는 같은 값으로 두겠습니다.
 
-자, 그럼 이제 $K$와 연관이 있는 $Q$만 정해주면 됩니다. 각 사람들 음성의 스타일은 그 사람의 목소리에서 나오는 것이기 때문에 이와 연관이 있다고 보면 괜찮지 않을까요? 그래서 오디오로부터 나온 정보와 관계를 통해 가중치를 구하고 이를 GST에 반영해주면 전달해주고자 하는 Attention 값이 됩니다. 
+자, 그럼 이제 $K$와 연관이 있는 $Q$만 정해주면 됩니다. 각 사람들 음성의 스타일은 그 사람의 목소리에서 나오는 것이기 때문에 이와 연관이 있다고 보면 괜찮지 않을까요? 그래서 오디오 정보($Q$)와 GST($V=K$) 사이의 관계를 통해 가중치를 구하고 이를 GST에 반영해주면 전달해주고자 하는 Attention 값이 됩니다.
+
+Attention 값은 오디오 특정 화자의 스타일의 정보를 가지고 있기 때문에 Encoder에 넣어주게 되면 스타일이 입혀진 목소리를 생성할 수 있게 됩니다.
 
 <figure>
-	<img src="/img/3/rnn.png" alt="alt text">
+	<img src="/img/3/style_token.png" alt="alt text">
 	<figcaption>그림8. Style-token 구조</figcaption>
 </figure>	
 
 
 ### Conclusion
-Attention이 딥러닝에서 사용될 때의 방식과 직관을 Seq2Seq, Style-token 2가지 예시를 통해 살펴봤습니다. 저는 Attention이라는 개념을 정보들 사이에 어떤 관계를 정의해 줄 것인가를 통해 정보를 더 잘 전달하는 방법이라고 생각합니다. 글이 길어져서 다음 글에서 Self-attention은 무엇인지 살펴보도록 하겠습니다.
+Attention이 딥러닝에서 사용될 때의 방식과 직관을 Seq2Seq, Style-token 2가지 예시를 통해 살펴봤습니다. 저는 Attention이라는 개념을 정보들 사이에 어떤 관계를 정의해 줄 것인가를 통해 특정한 정보를 더 잘 전달하는 방법이라고 생각합니다. 글이 길어져서 다음 글에서 Self-attention은 무엇인지 살펴보도록 하겠습니다.
 
 ### Reference
 [1] [Attention - Wikipedia](https://en.wikipedia.org/wiki/Attention) <br>
