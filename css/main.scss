@@ -8,9 +8,11 @@
 figure figcaption {
 	font-size: 0.9em;
 	padding: 0px;
+	text-align: center;
 }
 
 figure img {
+	vertical-align: top;
 	display: inline;
 	margin: 0;
 }
