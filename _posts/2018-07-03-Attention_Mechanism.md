@@ -75,7 +75,7 @@ $Q, K, V$는 어떤 정보이며 $K, V$는 쌍으로 같이 다니는 값이라�
 Attention을 통해서 저희가 최종적으로 하고 싶은 건 $V$ 정보에 가중치를 줘서 원하는 정보만(앞서 문단에 진하게 표시된 단어들!) 얻는 것입니다. 어떻게 얻는지 아래 수식을 통해 살펴 보겠습니다.
 
 - $QK^T$: $V$의 쌍으로 있는 $K, Q$라는 어떤 정보와의 관계(혹은 유사도)를 구합니다.
-- $\dfrac {QK^T} {\sqrt{d_k}}$: 특정 값만 너무 크면 가중치를 구했을 때 해당 값에만 너무 지배적이게 됩니다. 그래서 normalize를 해줍니다.
+- $\dfrac {QK^T} {\sqrt{d_k}}$: 특정 값만 너무 크면 가중치를 구했을 때 해당 값이 너무 지배적이게 됩니다. 그래서 normalize를 해줍니다.
 - $\text{softmax}(\dfrac {QK^T} {d_k})$: 유사도를 가중치로 바꿔줍니다.
 - $\text{softmax}(\dfrac {QK^T} {d_k})V$: 구한 유사도를 $V$에 반영해줍니다.
 
@@ -109,7 +109,7 @@ RNN에 대해서 잠깐 살펴보시죠. Encoder, Decoder는 아래 그림 및 �
 	<figcaption>그림6. Seq2Seq with Attention</figcaption>
 </figure>	
 
-결과적으로 위와 같은 형태의 모델이 되며 성능을 비교했을 때 RNN에 비해 입력 문장이 길어질 경우 성능 하락이 적음을 보입니다.
+결과적으로 위와 같은 형태의 모델이 되며 성능을 비교했을 때 RNN에 비해 입력 문장이 길어질 경우 성능 하락이 크지 않습니다. (RNNsearch가 attention이 적용된 모델입니다.)
 
 <figure>
 	<img src="/img/3/attention_perform.png" alt="alt text">
