@@ -9,7 +9,7 @@ mathjax: True
 ***
 
 ### What is Attention?
-위 글은 Wikipedia에 기술되어 있는 Attention의 의미[[1]](https://en.wikipedia.org/wiki/Attention)입니다. 아래에 깜빡이는 2개의 그림을 각각 보고 Attention의 의미를 설명한다고 했을 때, 어떤게 더 쉬우신가요? 
+아래 글은 Wikipedia에 기술되어 있는 Attention의 의미[[1]](https://en.wikipedia.org/wiki/Attention)입니다. 아래에 깜빡이는 2개의 그림을 각각 보고 Attention의 의미를 설명한다고 했을 때, 어떤게 더 쉬우신가요? 
 <figure>
 	<img src="/img/3/attn.gif" alt="alt text">
 	<figcaption>그림0. Attention YES/NO</figcaption>
