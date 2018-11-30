@@ -9,7 +9,7 @@ author:
 
 # Build settings
 # baseurl: /monochrome # Change this to your relative path (ex: /blog/), or leave just a /
-baseurl: "https://medipixel.github.io"
+baseurl: ""
 markdown: kramdown
 source: .
 destination: ./_site
