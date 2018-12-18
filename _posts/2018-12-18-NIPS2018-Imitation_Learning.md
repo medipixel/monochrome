@@ -155,7 +155,7 @@ $$ r_t = w^Ir_t^I + w^Gr_t^G $$
 
 여기서 imitation reward는 다음 수식과 같이 세분됩니다. 전체적인 수식을 먼저 보고, 각 내용에 대해 이야기해 보겠습니다.
 
-$$ r_t^I = w^pr_t^p + w^vr_t^v + w^er_t^e + w^cr_t^c  \\  w^p = 0.65, w^v = 0.1, w^e = 0.15, w^c = 0.1$$
+$$ r_t^I = w^pr_t^p + w^vr_t^v + w^er_t^e + w^cr_t^c  \\  w^p = 0.65, w^v = 0.1, w^e = 0.15, w^c = 0.1 $$
 
   * $r_t^p$: joint orientations reward
   * $r_t^v$: velocity reward
@@ -194,7 +194,9 @@ task reward는 agent가 달성하고자 하는 목표마다 달라지는데 기�
 
 \
 의미들을 우선 살펴보았는데, reward 수식의 형태를 조금 더 자세히 분석해 보겠습니다. 수식의 가장 안쪽에 reference와 차이를 계산하는 error sum 부분을 봅시다. 
+
 $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum}}] $$
+
 일단 $-x^2$의 그래프는 다음과 같은 형태입니다. 
 <figure>
   <img src="/img/imitation/reward_graph_x2.png" width="35%" alt="">
@@ -203,7 +205,9 @@ $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum
 여기서 x를 reference와 agent의 특정 factor의 차이라고 보면, 차이가 커지면 커질수록 결괏값이 - 방향으로 커지고, 작아지면 작아질수록 0에 가까워집니다. 또한, factor의 차이가 작아지면 결과로 나오게 되는 결괏값의 차이가 작습니다. 그래프를 보면 직관적으로 알 수 있지만 결괏값이 0에 가까워 질수록 그래프가 뭉뚝해집니다. factor 간의 차이가 크면 클수록 더 강한 페널티를 준다고 볼 수 있습니다. 
 
 이제 바깥쪽 부분을 봅시다. 
+
 $$ r_t^p = exp[\text{error sum}] $$
+
 exponential의 그래프는 다음과 같은 형태입니다. 
 <figure>
   <img src="/img/imitation/reward_graph_exp.png" width="70%" alt="">
@@ -236,7 +240,9 @@ agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는
 
 #### Multi-Clip Reward
 여러 reference motion을 활용하여 agent를 학습시킵니다. 매 time step 별로 여러 reference 중 적합한 것을 골라내는 manually crafted kinematic planner와 같은 방식보다 간단하면서 좋은 성능을 보였다고 합니다. 수식을 보면 명확한데, 해당 time step에서 가장 reward가 높은(max) reference의 reward를 사용합니다. 
+
 $$ r_t^I = \max_{j=1, ... ,k}r_t^j $$
+
   * $r_t^j$: j번째 motion clip의 imitation reward
 
 ### Our works
