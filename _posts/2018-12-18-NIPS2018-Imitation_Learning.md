@@ -109,14 +109,13 @@ BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이�
 
 기대와는 달리 이 결과도 문제가 많았습니다. 다른 방식으로 학습시킨 agent의 동작과 demonstration 동작이 매우 달랐기 때문인데요. reward shaping을 통해 동작에 대한 최소한의 가이드만을 준 강화학습 위주의 방법론으로 학습시킨 agent들은 달리는 동작이 각기 제멋대로였습니다. 이 agent들은 자세보다 달성하고자 하는 목적에 좀 더 맞는 형식으로 학습되기 때문에, 사람이 봤을 때 괴상해 보일 수 있지만, reward 상으로 봤을 때는 높은 점수를 얻습니다. 그래서 이 동작들은 demonstration의 달리기 동작처럼 일반적인 데이터가 거의 없었습니다. 아래 그림을 봅시다.
 
-
 <div class="row">  
 <div class="column">  
-<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif" width="30%" style="width:100%">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif" width="47%" style="width:100%">  
 <figcaption> Round 1 Demonstration </figcaption>
 </div>  
 <div class="column">  
-<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif" width="30%" style="width:100%">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif" width="47%" style="width:100%">  
 <figcaption> Round 1 ARS result</figcaption>
 </div>  
 </div>
@@ -279,12 +278,24 @@ demo files:
 ************************************
 ```
 학습 시에 시뮬레이션을 처음부터 끝까지 돌려서 결과를 확인하지 않고 time step을 150~200 step 정도에서 끊고 추이를 지켜보았는데요. 튜닝을 위한 시간을 아끼기 위해서였기도 하지만 출발 자세가 제일 중요하다고 판단했기 때문입니다. 우선 이 과정이 가속을 시작하는 부분이었기 때문에 빠르게 목표 속도에 진입하기 위해 가장 중요한 부분이었고, gait cycle에 안정적으로 진입하기만 한다면 같은 움직임이 반복되기 때문에 큰 어려움 없이 학습이 가능하다고 생각했기 때문입니다. 여러 실험을 하며 다음과 같은 결과들을 얻을 수 있었습니다.
+<div class="row">  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmimic_test1.gif " width="47%" alt="">
+</div>  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmimic_test2.gif " width="47%" alt="">
+</div>  
+</div>
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test1.gif " width="80%" alt="">
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test2.gif " width="80%" alt="">
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test3.gif " width="80%" alt="">
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test0.gif " width="80%" alt="">
-</figure>
+<div class="row">  
+<div class="column">  
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmimic_test3.gif " width="47%" alt="">
+</div>  
+<div class="column">  
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmimic_test0.gif " width="47%" alt="">
+</div>  
+</div>
+<figure>
 
 마지막으로 문제의 task reward 부분입니다. 이 부분에 들어가기에 앞서 일정상의 실책을 이야기를 먼저 하자면, round 2 제출일이 일주일씩 계속해서 밀리면서 학습일정이 꼬였습니다. 마감 전 일정을 정해서 parameter를 중간 확정하고 먼저 끝까지 학습하며 결과를 확인했어야 했는데, 계속해서 뒤로 가는 데드라인에 안주하며 그러지 못했던 결과가 막판에 치명적인 장애물로 다가왔습니다. task reward 같은 경우는 deepmimic에서 사용하는 exp[error sum]형태를 사용하였는데, 제출 3일 전 거의 모든 parameter를 확정하고 본격적으로 최종 트레이닝을 시키려고 할 때 정작 이 task reward로는 전진이 안 된다는 것을 알아챘습니다. 
 
