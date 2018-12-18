@@ -305,19 +305,19 @@ demo files:
 
 <div class="row">  
 <div class="column">  
-<img src="/img/imitation/reward_deepmimic_test1.gif" width="90%" alt="">
+<img src="/img/imitation/reward_deepmimic_test1.gif" width="100%" alt="">
 </div>  
 <div class="column">  
-<img src="/img/imitation/reward_deepmimic_test2.gif" width="90%" alt="">
+<img src="/img/imitation/reward_deepmimic_test2.gif" width="100%" alt="">
 </div>  
 </div>
 
 <div class="row">  
 <div class="column">  
-  <img src="/img/imitation/reward_deepmimic_test3.gif" width="90%" alt="">
+  <img src="/img/imitation/reward_deepmimic_test3.gif" width="100%" alt="">
 </div>  
 <div class="column">  
-  <img src="/img/imitation/reward_deepmimic_test0.gif " width="90%" alt="">
+  <img src="/img/imitation/reward_deepmimic_test0.gif " width="100%" alt="">
 </div>  
 </div>
 
