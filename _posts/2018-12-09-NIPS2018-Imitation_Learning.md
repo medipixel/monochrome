@@ -1,4 +1,3 @@
-
 ---
 header: NIPS2018 - Imitation Learning
 mathjax: True
