@@ -145,14 +145,18 @@ Task 목적과 reference의 motion을 모사하는 것을 동시에 고려하는
 
 #### Reward - Imitation, Task
 DeepMimic 아이디어 중 가장 핵심적인 부분으로 볼 수 있습니다. reward를 크게 2 부분의 합산으로 계산합니다. 얼마나 reference motion을 잘 imitation했는가와 agent가 수행하려는 task를 얼마나 달성했는가입니다. 우선 수식을 봅시다. 특정 time step(t)의 reward인 $r_t$는 다음과 같이 계산됩니다.
+
 $$ r_t = w^Ir_t^I + w^Gr_t^G $$
+
   * $r_t^I$: imitation reward
   * $r_t^G$: task reward
   * $w^I$: imitation weights
   * $w^G$: task weights
 
 여기서 imitation reward는 다음 수식과 같이 세분됩니다. 전체적인 수식을 먼저 보고, 각 내용에 대해 이야기해 보겠습니다.
+
 $$ r_t^I = w^pr_t^p + w^vr_t^v + w^er_t^e + w^cr_t^c  \\  w^p = 0.65, w^v = 0.1, w^e = 0.15, w^c = 0.1$$
+
   * $r_t^p$: joint orientations reward
   * $r_t^v$: velocity reward
   * $r_t^e$: end-effector reward
@@ -161,21 +165,28 @@ $$ r_t^I = w^pr_t^p + w^vr_t^v + w^er_t^e + w^cr_t^c  \\  w^p = 0.65, w^v = 0.1,
 이제 각 reward들을 조금 더 자세히 봅시다. 먼저 $ r_t^p $는 의 joint orientations의 유사 정도에 따라 reward를 주게 됩니다. 전체 imitation reward에서도 0.65로 가중치가 가장 큰데요. 그만큼 중요한 position 관련 factor라고 볼 수 있겠습니다. opensim에서 봐왔던것처럼, character의 joint의 angle들이 pose를 결정하기 때문입니다. 이것이 kinematics 데이터로 표현돼 있고요. 각 joint들의 least squares error의 가중치 합으로 계산됩니다. 수식을 보면 다음과 같습니다.[^2] 
 
 $$ r_t^p = exp[-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)] $$
+
   * $\hat{q}_t^j$: time step t일때, reference의 j번째 joint의 orientations
   * $q_t^j$: time step t일때, agent의 j번째 joint의 orientations
 
 두 번째로 velocity reward는 다음과 같이 계산합니다.
+
 $$ r_t^v = exp[-0.1(\sum_j\|\hat{\dot{q}}_t^j - \dot{q}_t^j\|^2)] $$
+
   * $\hat{\dot{q}}_t^j$: time step t일때, reference의 j번째 joint의 각속도
   * $\dot{q}_t^j$: time step t일때, agent의 j번째 joint의 각속도
 
 세 번째는 end-effector reward입니다. character의 손과 발같은 말단부(end-effector)가 reference와 유사한 정도를 계산합니다. 
+
 $$ r_t^e = exp[-40(\sum_e\|\hat{p}_t^e - p_t^e\|^2)] $$
+
   * $\hat{p}_t^e$: time step t일때, reference의 e번째 end-effector의 위치
   * $p_t^e$: time step t일때, agent의 e번째 end-effector의 위치
 
 마지막으로 center-of-mass reward입니다. character의 질량중심(center-of-mass)이 얼마나 reference와 차이가 있는지에 따라서 reward가 달라집니다. 
+
 $$ r_t^c = exp[-10(\sum_e\|\hat{p}_t^c - p_t^c\|^2)] $$
+
   * $\hat{p}_t^c$: time step t일때, reference의 center-of-mass 의 위치
   * $p_t^c$: time step t일때, agent의 center-of-mass 의 위치
 
