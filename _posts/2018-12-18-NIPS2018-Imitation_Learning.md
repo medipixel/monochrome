@@ -95,8 +95,11 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
        * agent의 policy 업데이트. demonstration state들과 inference 된 action들 $\mathcal{S}_{\text{demo}}, \tilde{\mathcal{A}}_{\text{demo}}$를 사용하여 behavioral Cloning 수행
 
 조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_\theta$를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
+
 $$ \theta^* = {arg\,max}_\theta \prod_{i=0}^{|\mathcal{I}^{\text{pre}}|}p_{\theta}(a_i | s_i^a, s_{i+1}^a) $$ 
+
 이제 imitation policy $\pi_{\phi}$를 살펴보면 demonstration의 state들과 model을 통해 inference된 action의 pair {$s_i^a,  \tilde{a}_i$}를 가장 잘 매칭 시킬 수 있는 $\phi^*$를 찾습니다.
+
 $$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
 
 ### Our works
