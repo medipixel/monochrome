@@ -11,7 +11,7 @@ reward, penalty를 바꿔가며 했던 여러 가지 실험 결과에 관해 이
 # Reward shaping
 Google deep mind에서 2015년 발표한 [Human-level control through deep reinforcement](https://www.nature.com/articles/nature14236/)를 보면 다양한 atari game environment에서 DQN의 성능을 볼 수 있습니다. montezuma's revenge 같은 경우 거의 바닥에 수렴(randome play와 같은 수준)하는 결과치를 볼 수 있는데요. 이 게임은 stage를 클리어하기 위해 주인공 캐릭터가 거쳐야 하는 단계가 너무 복잡하고 많습니다. 이것을 강화학습 관점에서 이야기하면 reward가 너무 sparse 하여 강화학습 agent가 어떻게 상황을 헤쳐나갈 지에 대해 갈피를 잡지 못한다고 할 수 있습니다.
 <figure>
-  <img src="/img/imitation/reward_deepmind_dqn_chart.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/masterhttps://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmind_dqn_chart.png" width="80%" alt="">
 </figure>
 
 그렇다면 어떻게 sparse 한 reward를 dense 하게 만들 수 있을까요? 크게 2가지 해결책이 있을 수 있습니다.
@@ -32,7 +32,7 @@ Learn from demonstration은 Imitation Learning이라고도 불립니다. manuall
 
 Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 이번 competition을 금방 끝낼 수 있을 것만 같은 착각에 빠져있었습니다. 아직 opensim에 대해 조사가 깊이 이루어지기 전이어서, opensim tool들을 사용해서 주어진 kinematics로부터 action을 만들어 낼 수 있다고 파악했기 때문이었죠. 다음 그림과 같이 말이죠.
 <figure>
-  <img src="/img/imitation/opensim_02.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_02.png" width="60%" alt="">
 </figure>
 action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 그에 따른 action이 있다면 Behavioral cloning 방법론을 사용할 수 있었기 때문입니다.
 
@@ -42,7 +42,7 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 우선 간단하게 Behavioral cloning(BC) 방법론에 대해 살펴봅시다. 기본 컨셉은 매우 간단합니다. 그 이름과 같이 agent를 사람과 같은 experts의 행동을 유사하게 따라 하게 만들겠다는 것입니다. [End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316)를 보며 알아봅시다. 우선 training 과정부터 살펴보면 다음 그림과 같이 이루어지게 됩니다.
 
 <figure>
-  <img src="/img/imitation/reward_bc_train.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_bc_train.PNG" width="80%" alt="">
 </figure>
 
 마치 Deep learning에서 CNN Classifier를 학습시키는 것과 유사한데요. Classifier 학습에 빗대자면 Input은 camera를 통해 들어오는 observation 데이터, Output은 steering command 라고 생각할 수 있습니다. 그리고 Label로 제시된 사람이 입력한 steering command와의 차이를 loss로 back propagation을 통해 학습됩니다. 정리하자면 다음과 같습니다.
@@ -60,7 +60,7 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 이런 문제들을 해결하기 위해 train 데이터셋을 augmentaion하기 위한 여러 가지 방법들이 사용됩니다. DAGGER가 대표적인 방법론이죠. 
 <figure>
-  <img src="/img/imitation/reward_bc_test.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_bc_test.PNG" width="60%" alt="">
 </figure>
 
 ### Our works
@@ -76,7 +76,7 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 논문에서 BCO(0)와 BCO(α)의 버전을 두었는데, 차이는 environment와 interaction을 일회성으로 하느냐 지속해서 하느냐의 여부입니다. BCO(0)는 model 학습 시 agent의 최초로 설정된 policy를 통해 interaction(Pre-demonstration)을 하여 만들어낸 state transition 데이터와 action 데이터만 이용합니다. BCO(α)는 agent의 update 된 policy를 이용하여 추가적인 interaction(Post-demonstration)를 수행하고 이 데이터들을 이용합니다. 여기서는 BCO(α)를 사용하였습니다. 
 
 <figure>
-  <img src="/img/imitation/reward_bco.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_bco.PNG" width="60%" alt="">
 </figure>
 
 전체 프로세스는 동작 방식을 개략적으로 살펴보면 다음과 같습니다.
@@ -108,8 +108,18 @@ Behavioral cloning 방법론을 택했던 또 다른 중요한 이유는 분산�
 BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이터셋으로 학습시킨 후, 이 pretrained model을 BCO agent 학습에서 이용하였습니다.
 
 기대와는 달리 이 결과도 문제가 많았습니다. 다른 방식으로 학습시킨 agent의 동작과 demonstration 동작이 매우 달랐기 때문인데요. reward shaping을 통해 동작에 대한 최소한의 가이드만을 준 강화학습 위주의 방법론으로 학습시킨 agent들은 달리는 동작이 각기 제멋대로였습니다. 이 agent들은 자세보다 달성하고자 하는 목적에 좀 더 맞는 형식으로 학습되기 때문에, 사람이 봤을 때 괴상해 보일 수 있지만, reward 상으로 봤을 때는 높은 점수를 얻습니다. 그래서 이 동작들은 demonstration의 달리기 동작처럼 일반적인 데이터가 거의 없었습니다. 아래 그림을 봅시다.
-{{ :start:프로젝트:opensim_분석:opensim_run_demo0.gif |}} | {{ :start:프로젝트:nips2018-reward:reward_ars_demo.gif |}} |
-^ demonstration ^ ARS ^
+
+<div class="row">  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif" width="60%">  
+<figcaption> Round 1 Demonstration </figcaption>
+</div>  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif" width="60%">  
+<figcaption> Round 1 ARS result</figcaption>
+</div>  
+</div>
+
 두 그림 모두 round 1 용 데이터들입니다. 좌측은 demonstration 데이터, 우측은 Augmented Random Search(ARS)로 학습시킨 agent의 결과입니다. 그림을 보면 알 수 있지만, 두 동작이 매우 다릅니다. 서 있는 자세에서 달리기까지의 출발 동작 부분이 특히 문제였는데, 이 부분의 경우 차이가 심했습니다. model이 필요로 하는 참고할만한 transition 데이터가 매우 적었기 때문에, 제대로 된 action을 만들어내지 못했고 결과적으로 이 전략 또한 실패로 마무리되었습니다.
 
 BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목적을 달성하게 됩니다. 우리가 goal이나 해야 할 task를 명확하게 지정해주지 않죠. agent에게 각 time step 별로 따라 해야 할 동작들만을 힌트로 제공합니다. 그렇다 보니 time step 별로 지정된 동작의 시퀀스가 한번 깨지게 되고 이런 부분이 쌓이게 되면 결과적으로 달성해야 할 목적에서 크게 벗어나게 됩니다. 
@@ -168,7 +178,7 @@ task reward는 agent가 달성하고자 하는 목표마다 달라지는데 기�
 $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum}}] $$
 일단 $-x^2$의 그래프는 다음과 같은 형태입니다. 
 <figure>
-  <img src="/img/imitation/reward_graph_x2.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_x2.png" width="80%" alt="">
 </figure>
 
 여기서 x를 reference와 agent의 특정 factor의 차이라고 보면, 차이가 커지면 커질수록 결괏값이 - 방향으로 커지고, 작아지면 작아질수록 0에 가까워집니다. 또한, factor의 차이가 작아지면 결과로 나오게 되는 결괏값의 차이가 작습니다. 그래프를 보면 직관적으로 알 수 있지만 결괏값이 0에 가까워 질수록 그래프가 뭉뚝해집니다. factor 간의 차이가 크면 클수록 더 강한 페널티를 준다고 볼 수 있습니다. 
@@ -177,23 +187,23 @@ $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum
 $$ r_t^p = exp[\text{error sum}] $$
 exponential의 그래프는 다음과 같은 형태입니다. 
 <figure>
-  <img src="/img/imitation/reward_graph_exp.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_exp.png" width="80%" alt="">
 </figure>
 
 여기서 y축은 reward, x축은 위에서 설명한 error sum의 결괏값입니다. weighted sum 결괏값은 무조건 0보다 작은 값을 갖기 때문에 reward는 0~1 사이의 값을 갖게 됩니다. reward의 max 값이 1로 설정되는 셈이죠. 또한, weighted sum 결괏값(reference와의 차이)이 커지면 커질수록 x값은 exp그래프의 마이너스 방향으로 찍히게 되므로, 결과로 나오는 reward 값은 0에 한없이 가까워지게 됩니다. 이 차이 값이 -3 정도가 넘어가게 되면 얻게 되는 reward는 0.05 이하로 매우 낮아지게 됩니다. 여기서 알 수 있는 중요한 사실은 **error sum의 결괏값이 어느 범위내에 들어오는 것을 적법한 reward로 인정할 것이냐를 error sum 수식 앞에 붙은 계수를 통해서 조절**한다는 것입니다. 즉, reference와의 차이의 허용치를 조절한다는 말입니다. factor들은 다양한 물리량을 다룹니다. 어떤 것은 angle이 될 수도 있고, position 값들이 될 수도 있습니다. 이런 값들이 표현되는 고유한 형식에 따라 분포된 범위가 달라질 수 있습니다. 그리고 agent를 학습시키는 개발자들의 필요에 따라 유효한 범위를 조절하고 싶을 수 있습니다. 이런 부분들을 -2, -0.1, -40, -10과 같은 계수들을 통해 통제할 수 있습니다. 
 <figure>
-  <img src="/img/imitation/nips2018-reward:reward_graph_ax2.gif" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/nips2018-reward:reward_graph_ax2.gif" width="80%" alt="">
 </figure>
 
 #### Reference State Initialization (RSI)
 일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습할 수 없습니다. 또한, 강화학습에서 이전에 경험한 trajectory에서 높은 reward를 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
 <figure>
-  <img src="/img/imitation/no_rsi.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/no_rsi.png" width="80%" alt="">
 </figure>
 
 그러므로 RSI에서는 이 initial state를 변경합니다. reference motion의 state 중 한 포인트에서 무작위로 시작합니다. backflip으로 예를 들자면 어떤 때는 땅에서 시작할 수도 있지만, 어떤 때는 공중에서 몸이 돌아가는 중이 될 수도 있겠지요. 
 <figure>
-  <img src="/img/imitation/rsi.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/rsi.png" width="80%" alt="">
 </figure>
 
 #### Early termination (ET)
@@ -219,14 +229,14 @@ DeepMimic에서 사용하였던 모든 주요 아이디어를 적용하려고 �
 
 우선 demonstration의 신뢰성 문제부터 이야기해 보겠습니다. 기반이 되었던 kinematics같은 경우 [실험데이터](https://simtk.org/projects/nmbl_running)를 기본으로 작업이 되었지만, 수작업으로 데이터 수정을 통해 만들어냈기 때문에 이것이 실제 시뮬레이션 환경에서 동작할지 미지수였습니다.
 <figure>
-  <img src="/img/imitation/reward:reward_edit_motion.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_edit_motion.png" width="80%" alt="">
 </figure>
 
 물론 수정한 kinematics가 동작하는 것을 opensim gui app에서 확인하였지만, 이것은 근육의 action을 통한 동작이 아닌 단순히 pose들의 연속인 껍데기만 동작시킨 것이기 때문입니다. 앞선 BCO에서는 action 데이터를 만들 때 이미 시뮬레이션을 이용하기 때문에 그리 큰 문제로 생각하지 않았습니다. 그러나 여기서는 오로지 kinematics의 차이만을 가지고 학습에 사용하기 때문에 문제가 될 수 있었습니다. 그렇기 때문에 demonstration을 validation 하기 위해 여러모로 연구를 하였지만, 뾰족한 수를 찾을 수가 없었습니다. 결국, imitation reward와 task reward의 weight를 바꿔가며 실험적으로 성공적인 수치를 찾아내기로 하였습니다. 우선 만들어져 있는 demonstration에 대해 신뢰성이 떨어졌으므로 task reward weight를 조금 더 크게 잡는 쪽으로 실험을 시작하였습니다.
 
 그리고 imitation reward를 설정하기 위해 어떤 factor들을 비교할 것인지를 알아내야 했습니다. 우선 현재 reference로 사용할 demonstration의 데이터 중 사용 가능한 필드들의 파악이 중요했는데요. 이것은 kinematics의 유효성과는 별개의 문제였습니다. 이전 posting에서 언급했듯 kinematics 데이터를 통해 demonstration의 state들을 만들어주는 [opensim tool을 이용한 script](https://github.com/medipixel/prosthetics/blob/master/test_tools/transfer_mot_to_obs.py)의 결과가 얼마나 유효한 데이터인지 알 수 없었기 때문입니다. 이 프로그램의 역할을 조금 더 자세히 설명하면, kinematics 데이터에 있는 각 time step 별 position, joint angle 값들을 바탕으로 velocity, acceleration 같은 값들을 계산해서 state들에 추가합니다. 그래서 새로 추가된 데이터들의 유효성을 검증하고자, 다음 그림과 같은 과정을 사용하였습니다.
 <figure>
-  <img src="/img/imitation/reward_validate_data.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_validate_data.png" width="80%" alt="">
 </figure>
 
 observation의 데이터에는 모든 position, velocity, acceleration 값들이 포함되어 있습니다. 여기서 얻은 데이터를 정답으로 했을 때, script를 통해 새로 만들어낸 데이터와 얼마나 유사한지를 검사하였습니다. 그 결과 acceleration을 제외한 값들은 80% 이상의 유사도를 보였고, 이 정도면 가중치를 통해 경중을 조절해가며 reference로 이용할만한 값이라고 판단했습니다. 그렇게 해서 최종적으로 reference로 사용하기로 한 factor들은 joint angle(pose), joint velocities, center-of-mass이 3가지입니다.
@@ -264,10 +274,10 @@ demo files:
 ```
 학습 시에 시뮬레이션을 처음부터 끝까지 돌려서 결과를 확인하지 않고 time step을 150~200 step 정도에서 끊고 추이를 지켜보았는데요. 튜닝을 위한 시간을 아끼기 위해서였기도 하지만 출발 자세가 제일 중요하다고 판단했기 때문입니다. 우선 이 과정이 가속을 시작하는 부분이었기 때문에 빠르게 목표 속도에 진입하기 위해 가장 중요한 부분이었고, gait cycle에 안정적으로 진입하기만 한다면 같은 움직임이 반복되기 때문에 큰 어려움 없이 학습이 가능하다고 생각했기 때문입니다. 여러 실험을 하며 다음과 같은 결과들을 얻을 수 있었습니다.
 <figure>
-  <img src="/img/imitation/reward:reward_deepmimic_test1.gif " width="80%" alt="">
-  <img src="/img/imitation/reward:reward_deepmimic_test2.gif " width="80%" alt="">
-  <img src="/img/imitation/reward:reward_deepmimic_test3.gif " width="80%" alt="">
-  <img src="/img/imitation/reward:reward_deepmimic_test0.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test1.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test2.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test3.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_deepmimic_test0.gif " width="80%" alt="">
 </figure>
 
 마지막으로 문제의 task reward 부분입니다. 이 부분에 들어가기에 앞서 일정상의 실책을 이야기를 먼저 하자면, round 2 제출일이 일주일씩 계속해서 밀리면서 학습일정이 꼬였습니다. 마감 전 일정을 정해서 parameter를 중간 확정하고 먼저 끝까지 학습하며 결과를 확인했어야 했는데, 계속해서 뒤로 가는 데드라인에 안주하며 그러지 못했던 결과가 막판에 치명적인 장애물로 다가왔습니다. task reward 같은 경우는 deepmimic에서 사용하는 exp[error sum]형태를 사용하였는데, 제출 3일 전 거의 모든 parameter를 확정하고 본격적으로 최종 트레이닝을 시키려고 할 때 정작 이 task reward로는 전진이 안 된다는 것을 알아챘습니다. 
@@ -281,7 +291,7 @@ reward = 9.0 - (state_desc["body_vel"]["pelvis"][0] - 3.0)**2
 ~~~~
 이를 그래프로 그려보면 다음과 같습니다. x축은 속도 y축은 reward입니다.
 <figure>
-  <img src="/img/imitation/reward:reward_graph_round.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_graph_round.png" width="80%" alt="">
 </figure>
 그리고 round 2의 기본 reward 코드를 보면 다음과 같습니다.[^3]
 
@@ -294,7 +304,7 @@ reward - penalty
 
 그래프는 다음과 같습니다. 
 <figure>
-  <img src="/img/imitation/reward:reward_graph_round2.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_graph_round2.png" width="80%" alt="">
 </figure>
 
 
@@ -303,7 +313,7 @@ reward - penalty
 여기서 개선 가능한 부분을 발견했습니다. round 2의 리워드를 라운드 1처럼 속도가 0일 때 리워드 취득을 못하도록 바꾸는 것입니다. 
 그리고 더 나아가 오히려 가만히 서 있으면 penalty를 주는 방법을 적용했습니다. 속도가 0일 때 약간의 벌점을 받도록 했습니다. 벌점이 너무 세면 agent가 주눅?들어서 오히려 아무 행동도 취하지 못했습니다. 이렇게 task reward를 개편하니 드디어 전진을 시작했습니다. 그러나 가장 중요한 자원인 시간부족으로 학습을 완료할 수 없었습니다…. 마지막 학습 결과는 다음과 같습니다. 
 <figure>
-  <img src="/img/imitation/reward:reward_final.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_final.gif " width="80%" alt="">
 </figure>
 
 결국, 최종 결과물은 imitation learning이 아닌 ARS에서 학습하였던 agent가 되었습니다. 
