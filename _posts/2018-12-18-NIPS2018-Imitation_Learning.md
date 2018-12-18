@@ -3,7 +3,8 @@ header: NIPS2018 - Imitation Learning
 mathjax: True
 ---
 
-이번 post에서는 competition에 적용하였던 reward shaping 방법론과 imitation learning 방법론을 기본으로 reward, penalty를 바꿔가며 했던 여러 가지 실험 결과에 관해 이야기해보겠습니다.
+이번 post에서는 competition에 적용하였던 reward shaping 방법론과 imitation learning 방법론을 기본으로 
+reward, penalty를 바꿔가며 했던 여러 가지 실험 결과에 관해 이야기해보겠습니다.
 
 <!--break-->
 
@@ -23,7 +24,9 @@ Google deep mind에서 2015년 발표한 [Human-level control through deep reinf
   * 골반은 전방으로 기울어 져야 한다 -> pelvis의 각도
   * 머리는 항상 골반보다 앞서 위치하여야 한다 -> head, pelvis의 위치
   * 넘어지면 페널티
+
 위 3가지를 넣고 수행하며 결과를 지켜봤는데, round 1 같은 경우 생각보다 괜찮은 결과물이 나왔습니다.
+
 # Imitation Learning
 Learn from demonstration은 Imitation Learning이라고도 불립니다. manually design 전략에서 꽤 괜찮은 결과물을 내었지만, 더 정밀한 reward를 만들기 위해 얼마 안 가 Imitation Learning 관련 리써치를 시작하였습니다. 본격적으로 Imitation learning을 적용하기 시작했을 시기는 competition이 어느 정도 진행된 후였습니다. 앞선 Opensim post에서 언급했던 것과 같이 여러 가지 시행착오를 겪으며 리써치를 수행한 후에야 어느정도 기본적인 Demonstration을 만들 수 있었기 때문이죠. 
 
@@ -34,6 +37,7 @@ Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 
 action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 그에 따른 action이 있다면 Behavioral cloning 방법론을 사용할 수 있었기 때문입니다.
 
 ## Behavioral Cloning
+
 ### Brief description
 우선 간단하게 Behavioral cloning(BC) 방법론에 대해 살펴봅시다. 기본 컨셉은 매우 간단합니다. 그 이름과 같이 agent를 사람과 같은 experts의 행동을 유사하게 따라 하게 만들겠다는 것입니다. [End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316)를 보며 알아봅시다. 우선 training 과정부터 살펴보면 다음 그림과 같이 이루어지게 됩니다.
 
@@ -65,11 +69,9 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 그러나 이런 섣부른 기쁨?은 그리 오래가지 못했습니다. 앞선 posting에서 기술했듯이 action을 만들어내는 것이 실패했기 때문입니다. 그렇기 때문에 action 없이 observation state만을 이용한 방법론들을 탐색하게 되었습니다. 여러 논문과 아티클들을 리써치하던 중 적합한 논문을 발견하게 되었는데 그것이 Behavioral cloning from observation입니다.
 
 ## Behavioral Cloning from Observation
+
 ### Brief description
-[Behavioral Cloning from Observation](https://arxiv.org/abs/1805.01954)(BCO)는 model-based 방법론입니다. Agent의 학습에는 그대로 BC를 사용하지만, Observation으로부터 Action을 예측하는 model이 추가됩니다. 이 Neural network로 만들어진 model(Inverse Dynamics Model)을 이용, 비어있는 Demonstration의 action을 inference 해서 BC에서 사용할 state, action을 만들어내는 것이죠. 조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_\theta$를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
-$$ \theta^* = {arg\,max}_\theta \prod_{i=0}^{|\mathcal{I}^{\text{pre}}|}p_{\theta}(a_i | s_i^a, s_{i+1}^a) $$ 
-이제 imitation policy $ \pi_{\phi} $를 살펴보면 demonstration의 state들과 model을 통해 inference된 action의 pair {$s_i^a, \tilde{a}_i$}를 가장 잘 매칭 시킬 수 있는 $ \phi^* $를 찾습니다.
-$$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
+[Behavioral Cloning from Observation](https://arxiv.org/abs/1805.01954)(BCO)는 model-based 방법론입니다. Agent의 학습에는 그대로 BC를 사용하지만, Observation으로부터 Action을 예측하는 model이 추가됩니다. 이 Neural network로 만들어진 model(Inverse Dynamics Model)을 이용, 비어있는 Demonstration의 action을 inference 해서 BC에서 사용할 state, action을 만들어내는 것이죠. 
 
 논문에서 BCO(0)와 BCO(α)의 버전을 두었는데, 차이는 environment와 interaction을 일회성으로 하느냐 지속해서 하느냐의 여부입니다. BCO(0)는 model 학습 시 agent의 최초로 설정된 policy를 통해 interaction(Pre-demonstration)을 하여 만들어낸 state transition 데이터와 action 데이터만 이용합니다. BCO(α)는 agent의 update 된 policy를 이용하여 추가적인 interaction(Post-demonstration)를 수행하고 이 데이터들을 이용합니다. 여기서는 BCO(α)를 사용하였습니다. 
 
@@ -92,6 +94,11 @@ $$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
      - Update policy $\pi_{\phi}^i$:
        * agent의 policy 업데이트. demonstration state들과 inference 된 action들 $\mathcal{S}_{\text{demo}}, \tilde{\mathcal{A}}_{\text{demo}}$를 사용하여 behavioral Cloning 수행
 
+조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_\theta$를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
+$$ \theta^* = {arg\,max}_\theta \prod_{i=0}^{|\mathcal{I}^{\text{pre}}|}p_{\theta}(a_i | s_i^a, s_{i+1}^a) $$ 
+이제 imitation policy $\pi_{\phi}$를 살펴보면 demonstration의 state들과 model을 통해 inference된 action의 pair {$s_i^a,  \tilde{a}_i$}를 가장 잘 매칭 시킬 수 있는 $\phi^*$를 찾습니다.
+$$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
+
 ### Our works
 Behavioral cloning 방법론을 택했던 또 다른 중요한 이유는 분산처리를 위해 사용하고 있었던 강화학습 플랫폼인 [Ray](https://rise.cs.berkeley.edu/projects/ray/)에서 agent가 미리 구현돼 있었다는 점입니다. 시간에 쫓기는 competition에서 이는 굉장한 이점이었습니다. 그러므로 새로운 학습방법론을 선정하는 과정에서 학습성능과 컨셉 못지않게 비중을 두었던 부분이 어떻게 하면 기존에 있던 모듈을 이용하여 구현시간을 단축할 수 있느냐는 점이었습니다. BCO는 이에 딱 알맞은 방법론이었죠. ray에서 이미 구현되어있는 BC agent를 활용해서 BCO agent를 구현하였습니다.[^1]
 
@@ -110,6 +117,7 @@ BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목�
 그러므로 자세를 참고는 하되 달성해야 할 목적을 계속해서 염두에 두고 수행하는, 나아가 참고해야 할 자세와 수행해야 할 목적의 비율을 조정해가며 실험해볼 수 있는 새로운 방법론이 필요하다는 생각을 하였습니다. 또다시 많은 탐색 과정을 거쳐 DeepMimic이라는 방법론을 사용하게 되었습니다.
 
 ## DeepMimic
+
 ### Brief description
 Task 목적과 reference의 motion을 모사하는 것을 동시에 고려하는 방법론입니다. 이 방법론의 주요 아이디어는 크게 다음과 같습니다. 
   - Reward - Imitation, Task
@@ -159,7 +167,10 @@ task reward는 agent가 달성하고자 하는 목표마다 달라지는데 기�
 의미들을 우선 살펴보았는데, reward 수식의 형태를 조금 더 자세히 분석해 보겠습니다. 수식의 가장 안쪽에 reference와 차이를 계산하는 error sum 부분을 봅시다. 
 $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum}}] $$
 일단 $-x^2$의 그래프는 다음과 같은 형태입니다. 
-{{ :start:프로젝트:nips2018-reward:reward_graph_x2.png?300 |}}
+<figure>
+  <img src="/img/imitation/reward_graph_x2.png" width="80%" alt="">
+</figure>
+
 여기서 x를 reference와 agent의 특정 factor의 차이라고 보면, 차이가 커지면 커질수록 결괏값이 - 방향으로 커지고, 작아지면 작아질수록 0에 가까워집니다. 또한, factor의 차이가 작아지면 결과로 나오게 되는 결괏값의 차이가 작습니다. 그래프를 보면 직관적으로 알 수 있지만 결괏값이 0에 가까워 질수록 그래프가 뭉뚝해집니다. factor 간의 차이가 크면 클수록 더 강한 페널티를 준다고 볼 수 있습니다. 
 
 이제 바깥쪽 부분을 봅시다. 
@@ -221,7 +232,7 @@ DeepMimic에서 사용하였던 모든 주요 아이디어를 적용하려고 �
 observation의 데이터에는 모든 position, velocity, acceleration 값들이 포함되어 있습니다. 여기서 얻은 데이터를 정답으로 했을 때, script를 통해 새로 만들어낸 데이터와 얼마나 유사한지를 검사하였습니다. 그 결과 acceleration을 제외한 값들은 80% 이상의 유사도를 보였고, 이 정도면 가중치를 통해 경중을 조절해가며 reference로 이용할만한 값이라고 판단했습니다. 그렇게 해서 최종적으로 reference로 사용하기로 한 factor들은 joint angle(pose), joint velocities, center-of-mass이 3가지입니다.
 
 reward의 weight 및 penalty를 결정하는 일은 굉장히 시간이 많이 소요되는 일이었습니다. 끝이 언제일지 모를 hyper parameter tuning 작업이었는데요. imitation reward와 task reward의 비율부터, imitation factor들의 계수들, penalty 사용 여부 및 설정까지. 수정하고 실험해야 할 것들이 엄청나게 많았습니다. 실험을 진행하며 새로운 파라미터들을 추가해야만 했는데, kinematics 데이터의 불확실성 때문인 듯 rotation 값과 position 값들의 단순 비교만으로는 제대로 된 학습이 이루어지지 않았습니다. 해결책을 찾던 중 [opensim IK tool에서 계산](https://simtk-confluence.stanford.edu/display/OpenSim/How+Inverse+Kinematics+Works#HowInverseKinematicsWorks-_Toc174781343WeightedLeastSquaresEquation)하는 것을 참고하여, joint들에 weight를 각각 따로 부여하여 중요한 부분은 오류에 민감하게 반응하도록 하니 학습이 이루어졌습니다. 그래서 최종적으로 아래 예제와 같이 설정파일들을 만들고 hyper parameter tuning을 진행하였습니다. 
-```
+```python
 ************************************
 reward configuration
 step limit: 150
