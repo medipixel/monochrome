@@ -110,15 +110,13 @@ BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이�
 기대와는 달리 이 결과도 문제가 많았습니다. 다른 방식으로 학습시킨 agent의 동작과 demonstration 동작이 매우 달랐기 때문인데요. reward shaping을 통해 동작에 대한 최소한의 가이드만을 준 강화학습 위주의 방법론으로 학습시킨 agent들은 달리는 동작이 각기 제멋대로였습니다. 이 agent들은 자세보다 달성하고자 하는 목적에 좀 더 맞는 형식으로 학습되기 때문에, 사람이 봤을 때 괴상해 보일 수 있지만, reward 상으로 봤을 때는 높은 점수를 얻습니다. 그래서 이 동작들은 demonstration의 달리기 동작처럼 일반적인 데이터가 거의 없었습니다. 아래 그림을 봅시다.
 
 
-![](/img/opensim/opensim_run_demo0.gif =250x  "Round 1 Demonstration") ![](/img/imitation/reward_ars_demo.gif =250x  "Round 1 ARS result")
-
-<div style="content: ; clear:both; display:table">  
-<div style="float:left; width:33.33%; padding:5px">  
-<img src="" width="30%" style="width:50%">  
+<div class="row">  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif" width="30%" style="width:100%">  
 <figcaption> Round 1 Demonstration </figcaption>
 </div>  
-<div style="float:left; width:33.33%; padding:5px">  
-<img src="" width="30%" style="width:50%">  
+<div class="column">  
+<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif" width="30%" style="width:100%">  
 <figcaption> Round 1 ARS result</figcaption>
 </div>  
 </div>
