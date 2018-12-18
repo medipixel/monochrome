@@ -109,13 +109,16 @@ BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이�
 
 기대와는 달리 이 결과도 문제가 많았습니다. 다른 방식으로 학습시킨 agent의 동작과 demonstration 동작이 매우 달랐기 때문인데요. reward shaping을 통해 동작에 대한 최소한의 가이드만을 준 강화학습 위주의 방법론으로 학습시킨 agent들은 달리는 동작이 각기 제멋대로였습니다. 이 agent들은 자세보다 달성하고자 하는 목적에 좀 더 맞는 형식으로 학습되기 때문에, 사람이 봤을 때 괴상해 보일 수 있지만, reward 상으로 봤을 때는 높은 점수를 얻습니다. 그래서 이 동작들은 demonstration의 달리기 동작처럼 일반적인 데이터가 거의 없었습니다. 아래 그림을 봅시다.
 
-<div class="row">  
-<div class="column">  
-<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif" width="60%">  
+
+![alt-text-1](https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/opensim/opensim_run_demo0.gif =250x  "Round 1 Demonstration")  ![alt-text-2](https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif =250x  "Round 1 ARS result")
+
+<div style="content: ; clear:both; display:table">  
+<div style="float:left; width:33.33%; padding:5px">  
+<img src="" width="30%" style="width:50%">  
 <figcaption> Round 1 Demonstration </figcaption>
 </div>  
-<div class="column">  
-<img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_ars_demo.gif" width="60%">  
+<div style="float:left; width:33.33%; padding:5px">  
+<img src="" width="30%" style="width:50%">  
 <figcaption> Round 1 ARS result</figcaption>
 </div>  
 </div>
@@ -123,7 +126,10 @@ BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이�
 두 그림 모두 round 1 용 데이터들입니다. 좌측은 demonstration 데이터, 우측은 Augmented Random Search(ARS)로 학습시킨 agent의 결과입니다. 그림을 보면 알 수 있지만, 두 동작이 매우 다릅니다. 서 있는 자세에서 달리기까지의 출발 동작 부분이 특히 문제였는데, 이 부분의 경우 차이가 심했습니다. model이 필요로 하는 참고할만한 transition 데이터가 매우 적었기 때문에, 제대로 된 action을 만들어내지 못했고 결과적으로 이 전략 또한 실패로 마무리되었습니다.
 
 BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목적을 달성하게 됩니다. 우리가 goal이나 해야 할 task를 명확하게 지정해주지 않죠. agent에게 각 time step 별로 따라 해야 할 동작들만을 힌트로 제공합니다. 그렇다 보니 time step 별로 지정된 동작의 시퀀스가 한번 깨지게 되고 이런 부분이 쌓이게 되면 결과적으로 달성해야 할 목적에서 크게 벗어나게 됩니다. 
-{{ :start:프로젝트:nips2018-reward:reward_bc_pdata_err.png?500 |}}
+<figure>
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_bc_pdata_err.PNG" width="60%" alt="">
+</figure>
+
 그러므로 자세를 참고는 하되 달성해야 할 목적을 계속해서 염두에 두고 수행하는, 나아가 참고해야 할 자세와 수행해야 할 목적의 비율을 조정해가며 실험해볼 수 있는 새로운 방법론이 필요하다는 생각을 하였습니다. 또다시 많은 탐색 과정을 거쳐 DeepMimic이라는 방법론을 사용하게 되었습니다.
 
 ## DeepMimic
@@ -178,7 +184,7 @@ task reward는 agent가 달성하고자 하는 목표마다 달라지는데 기�
 $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum}}] $$
 일단 $-x^2$의 그래프는 다음과 같은 형태입니다. 
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_x2.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_x2.png" width="35%" alt="">
 </figure>
 
 여기서 x를 reference와 agent의 특정 factor의 차이라고 보면, 차이가 커지면 커질수록 결괏값이 - 방향으로 커지고, 작아지면 작아질수록 0에 가까워집니다. 또한, factor의 차이가 작아지면 결과로 나오게 되는 결괏값의 차이가 작습니다. 그래프를 보면 직관적으로 알 수 있지만 결괏값이 0에 가까워 질수록 그래프가 뭉뚝해집니다. factor 간의 차이가 크면 클수록 더 강한 페널티를 준다고 볼 수 있습니다. 
@@ -187,7 +193,7 @@ $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum
 $$ r_t^p = exp[\text{error sum}] $$
 exponential의 그래프는 다음과 같은 형태입니다. 
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_exp.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_exp.png" width="70%" alt="">
 </figure>
 
 여기서 y축은 reward, x축은 위에서 설명한 error sum의 결괏값입니다. weighted sum 결괏값은 무조건 0보다 작은 값을 갖기 때문에 reward는 0~1 사이의 값을 갖게 됩니다. reward의 max 값이 1로 설정되는 셈이죠. 또한, weighted sum 결괏값(reference와의 차이)이 커지면 커질수록 x값은 exp그래프의 마이너스 방향으로 찍히게 되므로, 결과로 나오는 reward 값은 0에 한없이 가까워지게 됩니다. 이 차이 값이 -3 정도가 넘어가게 되면 얻게 되는 reward는 0.05 이하로 매우 낮아지게 됩니다. 여기서 알 수 있는 중요한 사실은 **error sum의 결괏값이 어느 범위내에 들어오는 것을 적법한 reward로 인정할 것이냐를 error sum 수식 앞에 붙은 계수를 통해서 조절**한다는 것입니다. 즉, reference와의 차이의 허용치를 조절한다는 말입니다. factor들은 다양한 물리량을 다룹니다. 어떤 것은 angle이 될 수도 있고, position 값들이 될 수도 있습니다. 이런 값들이 표현되는 고유한 형식에 따라 분포된 범위가 달라질 수 있습니다. 그리고 agent를 학습시키는 개발자들의 필요에 따라 유효한 범위를 조절하고 싶을 수 있습니다. 이런 부분들을 -2, -0.1, -40, -10과 같은 계수들을 통해 통제할 수 있습니다. 
@@ -198,20 +204,22 @@ exponential의 그래프는 다음과 같은 형태입니다.
 #### Reference State Initialization (RSI)
 일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습할 수 없습니다. 또한, 강화학습에서 이전에 경험한 trajectory에서 높은 reward를 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/no_rsi.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/no_rsi.png" width="40%" alt="">
 </figure>
 
 그러므로 RSI에서는 이 initial state를 변경합니다. reference motion의 state 중 한 포인트에서 무작위로 시작합니다. backflip으로 예를 들자면 어떤 때는 땅에서 시작할 수도 있지만, 어떤 때는 공중에서 몸이 돌아가는 중이 될 수도 있겠지요. 
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/rsi.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/rsi.png" width="40%" alt="">
 </figure>
 
 #### Early termination (ET)
 agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는 상태일 때, 학습을 일찍 종료시킵니다. 달리기를 배우는 환경인데 넘어졌다던가 하는 상황같이요. 이번 competition에서 골반의 위치가 특정 높이 이하로 떨어지면 ET를 수행시키는 코드가 기본적으로 들어가 있습니다. 
+
 <figure>
   <img src=" http://bair.berkeley.edu/static/blog/stuntman/backflip_ablation.gif" width="80%" alt="">
+  <figcaption> "Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. Left: RSI+ET. Middle: No RSI. Right: No ET."</figcaption>
 </figure>
- *"Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. Left: RSI+ET. Middle: No RSI. Right: No ET."*
+
 
 #### Multi-Clip Reward
 여러 reference motion을 활용하여 agent를 학습시킵니다. 매 time step 별로 여러 reference 중 적합한 것을 골라내는 manually crafted kinematic planner와 같은 방식보다 간단하면서 좋은 성능을 보였다고 합니다. 수식을 보면 명확한데, 해당 time step에서 가장 reward가 높은(max) reference의 reward를 사용합니다. 
@@ -229,14 +237,14 @@ DeepMimic에서 사용하였던 모든 주요 아이디어를 적용하려고 �
 
 우선 demonstration의 신뢰성 문제부터 이야기해 보겠습니다. 기반이 되었던 kinematics같은 경우 [실험데이터](https://simtk.org/projects/nmbl_running)를 기본으로 작업이 되었지만, 수작업으로 데이터 수정을 통해 만들어냈기 때문에 이것이 실제 시뮬레이션 환경에서 동작할지 미지수였습니다.
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_edit_motion.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_edit_motion.PNG" width="70%" alt="">
 </figure>
 
 물론 수정한 kinematics가 동작하는 것을 opensim gui app에서 확인하였지만, 이것은 근육의 action을 통한 동작이 아닌 단순히 pose들의 연속인 껍데기만 동작시킨 것이기 때문입니다. 앞선 BCO에서는 action 데이터를 만들 때 이미 시뮬레이션을 이용하기 때문에 그리 큰 문제로 생각하지 않았습니다. 그러나 여기서는 오로지 kinematics의 차이만을 가지고 학습에 사용하기 때문에 문제가 될 수 있었습니다. 그렇기 때문에 demonstration을 validation 하기 위해 여러모로 연구를 하였지만, 뾰족한 수를 찾을 수가 없었습니다. 결국, imitation reward와 task reward의 weight를 바꿔가며 실험적으로 성공적인 수치를 찾아내기로 하였습니다. 우선 만들어져 있는 demonstration에 대해 신뢰성이 떨어졌으므로 task reward weight를 조금 더 크게 잡는 쪽으로 실험을 시작하였습니다.
 
 그리고 imitation reward를 설정하기 위해 어떤 factor들을 비교할 것인지를 알아내야 했습니다. 우선 현재 reference로 사용할 demonstration의 데이터 중 사용 가능한 필드들의 파악이 중요했는데요. 이것은 kinematics의 유효성과는 별개의 문제였습니다. 이전 posting에서 언급했듯 kinematics 데이터를 통해 demonstration의 state들을 만들어주는 [opensim tool을 이용한 script](https://github.com/medipixel/prosthetics/blob/master/test_tools/transfer_mot_to_obs.py)의 결과가 얼마나 유효한 데이터인지 알 수 없었기 때문입니다. 이 프로그램의 역할을 조금 더 자세히 설명하면, kinematics 데이터에 있는 각 time step 별 position, joint angle 값들을 바탕으로 velocity, acceleration 같은 값들을 계산해서 state들에 추가합니다. 그래서 새로 추가된 데이터들의 유효성을 검증하고자, 다음 그림과 같은 과정을 사용하였습니다.
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_validate_data.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_validate_data.png" width="100%" alt="">
 </figure>
 
 observation의 데이터에는 모든 position, velocity, acceleration 값들이 포함되어 있습니다. 여기서 얻은 데이터를 정답으로 했을 때, script를 통해 새로 만들어낸 데이터와 얼마나 유사한지를 검사하였습니다. 그 결과 acceleration을 제외한 값들은 80% 이상의 유사도를 보였고, 이 정도면 가중치를 통해 경중을 조절해가며 reference로 이용할만한 값이라고 판단했습니다. 그렇게 해서 최종적으로 reference로 사용하기로 한 factor들은 joint angle(pose), joint velocities, center-of-mass이 3가지입니다.
@@ -291,7 +299,7 @@ reward = 9.0 - (state_desc["body_vel"]["pelvis"][0] - 3.0)**2
 ~~~~
 이를 그래프로 그려보면 다음과 같습니다. x축은 속도 y축은 reward입니다.
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_graph_round.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_round1.png" width="30%" alt="">
 </figure>
 그리고 round 2의 기본 reward 코드를 보면 다음과 같습니다.[^3]
 
@@ -304,7 +312,7 @@ reward - penalty
 
 그래프는 다음과 같습니다. 
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_graph_round2.png" width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_graph_round2.png" width="35%" alt="">
 </figure>
 
 
@@ -313,7 +321,7 @@ reward - penalty
 여기서 개선 가능한 부분을 발견했습니다. round 2의 리워드를 라운드 1처럼 속도가 0일 때 리워드 취득을 못하도록 바꾸는 것입니다. 
 그리고 더 나아가 오히려 가만히 서 있으면 penalty를 주는 방법을 적용했습니다. 속도가 0일 때 약간의 벌점을 받도록 했습니다. 벌점이 너무 세면 agent가 주눅?들어서 오히려 아무 행동도 취하지 못했습니다. 이렇게 task reward를 개편하니 드디어 전진을 시작했습니다. 그러나 가장 중요한 자원인 시간부족으로 학습을 완료할 수 없었습니다…. 마지막 학습 결과는 다음과 같습니다. 
 <figure>
-  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward:reward_final.gif " width="80%" alt="">
+  <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_final.gif" width="80%" alt="">
 </figure>
 
 결국, 최종 결과물은 imitation learning이 아닌 ARS에서 학습하였던 agent가 되었습니다. 
