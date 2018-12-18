@@ -192,7 +192,8 @@ $$ r_t^c = exp[-10(\sum_e\|\hat{p}_t^c - p_t^c\|^2)] $$
 
 task reward는 agent가 달성하고자 하는 목표마다 달라지는데 기본적으로 수식의 형태는 imitation reward와 비슷하게 exp[sum(least square error)] 형태입니다. 
 
-\
+
+
 의미들을 우선 살펴보았는데, reward 수식의 형태를 조금 더 자세히 분석해 보겠습니다. 수식의 가장 안쪽에 reference와 차이를 계산하는 error sum 부분을 봅시다. 
 
 $$ r_t^p = exp[\underbrace{-2(\sum_j\|\hat{q}_t^j - q_t^j\|^2)}_{\text{error sum}}] $$
