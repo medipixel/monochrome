@@ -299,6 +299,7 @@ demo files:
   - /home/medipixel/demos/GIL02_free2_181026_2.xlsx
 ************************************
 ```
+
 학습 시에 시뮬레이션을 처음부터 끝까지 돌려서 결과를 확인하지 않고 time step을 150~200 step 정도에서 끊고 추이를 지켜보았는데요. 튜닝을 위한 시간을 아끼기 위해서였기도 하지만 출발 자세가 제일 중요하다고 판단했기 때문입니다. 우선 이 과정이 가속을 시작하는 부분이었기 때문에 빠르게 목표 속도에 진입하기 위해 가장 중요한 부분이었고, gait cycle에 안정적으로 진입하기만 한다면 같은 움직임이 반복되기 때문에 큰 어려움 없이 학습이 가능하다고 생각했기 때문입니다. 여러 실험을 하며 다음과 같은 결과들을 얻을 수 있었습니다.
 
 <div class="row">  
@@ -309,7 +310,7 @@ demo files:
 <img src="/img/imitation/reward_deepmimic_test2.gif" width="47%" alt="">
 </div>  
 </div>
-<figure>
+
 <div class="row">  
 <div class="column">  
   <img src="/img/imitation/reward_deepmimic_test3.gif" width="47%" alt="">
