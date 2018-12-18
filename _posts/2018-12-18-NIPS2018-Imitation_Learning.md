@@ -116,11 +116,11 @@ BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이�
 
 <div class="row">  
 <div class="column">  
-<img src="/img/opensim/opensim_run_demo0.gif" width="60%" style="width:100%">  
+<img src="/img/opensim/opensim_run_demo0.gif" width="90%" style="width:100%">  
 <figcaption> Round 1 Demonstration </figcaption>
 </div>  
 <div class="column">  
-<img src="/img/imitation/reward_ars_demo.gif" width="60%" style="width:100%">  
+<img src="/img/imitation/reward_ars_demo.gif" width="90%" style="width:100%">  
 <figcaption> Round 1 ARS result</figcaption>
 </div>  
 </div>
@@ -305,19 +305,19 @@ demo files:
 
 <div class="row">  
 <div class="column">  
-<img src="/img/imitation/reward_deepmimic_test1.gif" width="47%" alt="">
+<img src="/img/imitation/reward_deepmimic_test1.gif" width="90%" alt="">
 </div>  
 <div class="column">  
-<img src="/img/imitation/reward_deepmimic_test2.gif" width="47%" alt="">
+<img src="/img/imitation/reward_deepmimic_test2.gif" width="90%" alt="">
 </div>  
 </div>
 
 <div class="row">  
 <div class="column">  
-  <img src="/img/imitation/reward_deepmimic_test3.gif" width="47%" alt="">
+  <img src="/img/imitation/reward_deepmimic_test3.gif" width="90%" alt="">
 </div>  
 <div class="column">  
-  <img src="/img/imitation/reward_deepmimic_test0.gif " width="47%" alt="">
+  <img src="/img/imitation/reward_deepmimic_test0.gif " width="90%" alt="">
 </div>  
 </div>
 
