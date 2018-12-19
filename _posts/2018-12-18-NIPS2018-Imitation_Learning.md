@@ -3,7 +3,7 @@ header: NIPS2018 - Imitation Learning
 mathjax: True
 ---
 
-이번 post에서는 competition에 적용하였던 reward shaping 방법론과 imitation learning 방법론을 기본으로 
+이번 posting에서는 competition에 적용하였던 reward shaping 방법론과 imitation learning 방법론을 기본으로 
 reward, penalty를 바꿔가며 했던 여러 가지 실험 결과에 관해 이야기해보겠습니다.
 
 <!--break-->
