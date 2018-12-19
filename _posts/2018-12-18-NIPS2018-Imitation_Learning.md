@@ -90,7 +90,7 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
    * Append to $$\mathcal{T}_{\pi_{\phi}}^a, \mathcal{A}_{\pi_{\phi}}$$: 
       - 생성된 Samples는 $$\mathcal{T}_{\pi_{\phi}}^a$$ 에 action들은 $$\mathcal{A}_{\pi_{\phi}}$$에 넣어줌
    * Update model $\mathcal{M}_{\theta}^i$:
-      - $$\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$$를 사용하여 model 업데이트
+      - $$\mathcal{T}_{\pi_{\phi}}^a, \mathcal{A}_{\pi_{\phi}}$$를 사용하여 model 업데이트
    * Infer action:
       - model이 여러 demonstration trajectory의 모음인 $$D_{\text{demo}}$$ 사용하여 action inference
    * Update policy $\pi_{\phi}^i$:
