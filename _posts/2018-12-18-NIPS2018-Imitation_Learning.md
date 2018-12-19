@@ -28,7 +28,7 @@ Google deep mind에서 2015년 발표한 [Human-level control through deep reinf
 위 3가지를 넣고 수행하며 결과를 지켜봤는데, round 1 같은 경우 생각보다 괜찮은 결과물이 나왔습니다.
 
 # Imitation Learning
-Learn from demonstration은 Imitation Learning이라고도 불립니다. manually design 전략에서 꽤 괜찮은 결과물을 내었지만, 더 정밀한 reward를 만들기 위해 얼마 안 가 Imitation Learning 관련 리써치를 시작하였습니다. 본격적으로 Imitation learning을 적용하기 시작했을 시기는 competition이 어느 정도 진행된 후였습니다. 앞선 [Opensim]({{ site.url }}/NIPS2018-Opensim)에서 언급했던 것과 같이 여러 가지 시행착오를 겪으며 리써치를 수행한 후에야 어느정도 기본적인 Demonstration을 만들 수 있었기 때문이죠. 
+Learn from demonstration은 Imitation Learning이라고도 불립니다. manually design 전략에서 꽤 괜찮은 결과물을 내었지만, 더 정밀한 reward를 만들기 위해 얼마 안 가 Imitation Learning 관련 리써치를 시작하였습니다. 본격적으로 Imitation learning을 적용하기 시작했을 시기는 competition이 어느 정도 진행된 후였습니다. 앞선 [Opensim posting]({{ site.url }}/NIPS2018-Opensim)에서 언급했던 것과 같이 여러 가지 시행착오를 겪으며 리써치를 수행한 후에야 어느정도 기본적인 Demonstration을 만들 수 있었기 때문이죠. 
 
 Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 이번 competition을 금방 끝낼 수 있을 것만 같은 착각에 빠져있었습니다. 아직 opensim에 대해 조사가 깊이 이루어지기 전이어서, opensim tool들을 사용해서 주어진 kinematics로부터 action을 만들어 낼 수 있다고 파악했기 때문이었죠. 다음 그림과 같이 말이죠.
 <figure>
