@@ -42,7 +42,7 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 우선 간단하게 Behavioral cloning(BC) 방법론에 대해 살펴봅시다. 기본 컨셉은 매우 간단합니다. 그 이름과 같이 agent를 사람과 같은 experts의 행동을 유사하게 따라 하게 만들겠다는 것입니다. [End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316)를 보며 알아봅시다. 우선 training 과정부터 살펴보면 다음 그림과 같이 이루어지게 됩니다.
 
 <figure>
-  <img src="/img/imitation/reward_bc_train.PNG" width="80%" alt="">
+  <img src="/img/imitation/reward_bc_train.png" width="80%" alt="">
 </figure>
 
 마치 Deep learning에서 CNN Classifier를 학습시키는 것과 유사한데요. Classifier 학습에 빗대자면 Input은 camera를 통해 들어오는 observation 데이터, Output은 steering command 라고 생각할 수 있습니다. 그리고 Label로 제시된 사람이 입력한 steering command와의 차이를 loss로 back propagation을 통해 학습됩니다. 정리하자면 다음과 같습니다.
