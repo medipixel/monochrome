@@ -143,7 +143,7 @@ BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목�
   - Early termination (ET)
   - Multi-Clip Reward
 
-#### Reward - Imitation, Task
+##### Reward - Imitation, Task
 DeepMimic 아이디어 중 가장 핵심적인 부분으로 볼 수 있습니다. reward를 크게 2 부분의 합산으로 계산합니다. 얼마나 reference motion을 잘 imitation했는가와 agent가 수행하려는 task를 얼마나 달성했는가입니다. 우선 수식을 봅시다. 특정 time step(t)의 reward인 $r_t$는 다음과 같이 계산됩니다.
 
 $$ r_t = w^Ir_t^I + w^Gr_t^G $$
@@ -219,7 +219,7 @@ exponential의 그래프는 다음과 같은 형태입니다.
   <img src="/img/imitation/reward_graph_ax2.gif" width="80%" alt="">
 </figure>
 
-#### Reference State Initialization (RSI)
+##### Reference State Initialization (RSI)
 일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습할 수 없습니다. 또한, 강화학습에서 이전에 경험한 trajectory에서 높은 reward를 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
 <figure>
   <img src="/img/imitation/no_rsi.png" width="40%" alt="">
@@ -230,7 +230,7 @@ exponential의 그래프는 다음과 같은 형태입니다.
   <img src="/img/imitation/rsi.png" width="40%" alt="">
 </figure>
 
-#### Early termination (ET)
+##### Early termination (ET)
 agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는 상태일 때, 학습을 일찍 종료시킵니다. 달리기를 배우는 환경인데 넘어졌다던가 하는 상황같이요. 이번 competition에서 골반의 위치가 특정 높이 이하로 떨어지면 ET를 수행시키는 코드가 기본적으로 들어가 있습니다. 
 
 <figure>
@@ -239,7 +239,7 @@ agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는
 </figure>
 
 
-#### Multi-Clip Reward
+##### Multi-Clip Reward
 여러 reference motion을 활용하여 agent를 학습시킵니다. 매 time step 별로 여러 reference 중 적합한 것을 골라내는 manually crafted kinematic planner와 같은 방식보다 간단하면서 좋은 성능을 보였다고 합니다. 수식을 보면 명확한데, 해당 time step에서 가장 reward가 높은(max) reference의 reward를 사용합니다. 
 
 $$ r_t^I = \max_{j=1, ... ,k}r_t^j $$
