@@ -60,7 +60,7 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 
 $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 
-이런 문제들을 해결하기 위해 train 데이터셋을 augmentaion하기 위한 여러 가지 방법들이 사용됩니다. [DAGGER](https://arxiv.org/abs/1011.0686)(Dataset Aggregation algorithm)가 대표적인 방법론이죠. 
+이런 문제들을 해결하기 위해 train 데이터셋을 augmentaion하기 위한 여러 가지 방법들이 사용됩니다. [DAgger](https://arxiv.org/abs/1011.0686)(Dataset Aggregation algorithm)가 대표적인 방법론이죠. 
 <figure>
   <img src="/img/imitation/reward_bc_test.PNG" width="60%" alt="">
 </figure>
