@@ -260,7 +260,7 @@ DeepMimic에서 사용하였던 모든 주요 아이디어를 적용하려고 �
   <img src="/img/imitation/reward_edit_motion.PNG" width="70%" alt="">
 </figure>
 
-물론 수정한 kinematics가 동작하는 것을 opensim gui app에서 확인하였지만, 이것은 근육의 action을 통한 동작이 아닌 단순히 pose들의 연속인 껍데기만 동작시킨 것이기 때문입니다. 앞선 BCO에서는 action 데이터를 만들 때 이미 시뮬레이션을 이용하기 때문에 그리 큰 문제로 생각하지 않았습니다. 그러나 여기서는 오로지 kinematics의 차이만을 가지고 학습에 사용하기 때문에 문제가 될 수 있었습니다. 그렇기 때문에 demonstration을 validation 하기 위해 여러모로 연구를 하였지만, 뾰족한 수를 찾을 수가 없었습니다. 결국, imitation reward와 task reward의 weight를 바꿔가며 실험적으로 성공적인 수치를 찾아내기로 하였습니다. 우선 만들어져 있는 demonstration에 대해 신뢰성이 떨어졌으므로 task reward weight를 조금 더 크게 잡는 쪽으로 실험을 시작하였습니다.
+물론 수정한 kinematics가 동작하는 것을 opensim gui tool에서 확인하였지만, 이것은 근육의 action을 통한 동작이 아닌 단순히 pose들의 연속인 껍데기만 동작시킨 것이기 때문입니다. 앞선 BCO에서는 action 데이터를 만들 때 이미 시뮬레이션을 이용하기 때문에 그리 큰 문제로 생각하지 않았습니다. 그러나 여기서는 오로지 kinematics의 차이만을 가지고 학습에 사용하기 때문에 문제가 될 수 있었습니다. 그렇기 때문에 demonstration을 validation 하기 위해 여러모로 연구를 하였지만, 뾰족한 수를 찾을 수가 없었습니다. 결국, imitation reward와 task reward의 weight를 바꿔가며 실험적으로 성공적인 수치를 찾아내기로 하였습니다. 우선 만들어져 있는 demonstration에 대해 신뢰성이 떨어졌으므로 task reward weight를 조금 더 크게 잡는 쪽으로 실험을 시작하였습니다.
 
 그리고 imitation reward를 설정하기 위해 어떤 factor들을 비교할 것인지를 알아내야 했습니다. 우선 현재 reference로 사용할 demonstration의 데이터 중 사용 가능한 필드들의 파악이 중요했는데요. 이것은 kinematics의 유효성과는 별개의 문제였습니다. 이전 posting에서 언급했듯 kinematics 데이터를 통해 demonstration의 state들을 만들어주는 [opensim tool을 이용한 script](https://github.com/medipixel/prosthetics/blob/master/test_tools/transfer_mot_to_obs.py)의 결과가 얼마나 유효한 데이터인지 알 수 없었기 때문입니다. 이 프로그램의 역할을 조금 더 자세히 설명하면, kinematics 데이터에 있는 각 time step 별 position, joint angle 값들을 바탕으로 velocity, acceleration 같은 값들을 계산해서 state들에 추가합니다. 그래서 새로 추가된 데이터들의 유효성을 검증하고자, 다음 그림과 같은 과정을 사용하였습니다.
 <figure>
