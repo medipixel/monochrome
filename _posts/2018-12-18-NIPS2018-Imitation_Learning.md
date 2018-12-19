@@ -235,7 +235,7 @@ agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는
 
 <figure>
   <img src=" http://bair.berkeley.edu/static/blog/stuntman/backflip_ablation.gif" width="80%" alt="">
-  <figcaption> "Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. <Left: RSI+ET. Middle: No RSI. Right: No ET."</figcaption>
+  <figcaption> "Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. <br> Left: RSI+ET. Middle: No RSI. Right: No ET."</figcaption>
 </figure>
 
 
