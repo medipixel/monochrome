@@ -137,7 +137,7 @@ BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목�
 ## DeepMimic
 
 ### Brief description
-Task 목적과 reference의 motion을 모사하는 것을 동시에 고려하는 방법론입니다. 이 방법론의 주요 아이디어는 크게 다음과 같습니다. 
+[Deepmimic](https://arxiv.org/abs/1804.02717)은 Task 목적과 reference의 motion을 모사하는 것을 동시에 고려하는 방법론입니다. 이 방법론의 주요 아이디어는 크게 다음과 같습니다. 
   - Reward - Imitation, Task
   - Reference State Initialization (RSI)
   - Early termination (ET)
