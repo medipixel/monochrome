@@ -87,8 +87,8 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 2. 다음 반복
     * Run policy $\pi_{\phi}^i$: 
       - agent는 각 time step 별로 environment와 interaction 하여 samples($s_t^a, s_{t+1}^a$), action($a_t$) pair 생성
-   * Append to $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$: 
-      - 생성된 Samples는 $\mathcal{T}_{\pi_{\phi}}^a$ 에 action들은 $\mathcal{A}_{\pi_{\phi}}$에 넣어줌
+   * Append to $$\mathcal{T}_{\pi_{\phi}}^a, \mathcal{A}_{\pi_{\phi}}$$: 
+      - 생성된 Samples는 $$\mathcal{T}_{\pi_{\phi}}^a$$ 에 action들은 $$\mathcal{A}_{\pi_{\phi}}$$에 넣어줌
    * Update model $\mathcal{M}_{\theta}^i$:
       - $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$를 사용하여 model 업데이트
    * Infer action:
