@@ -176,7 +176,7 @@ $$ r_t^v = exp[-0.1(\sum_j\|\hat{\dot{q}}_t^j - \dot{q}_t^j\|^2)] $$
   * $\hat{\dot{q}}_t^j$: time step t일때, reference의 j번째 joint의 각속도
   * $\dot{q}_t^j$: time step t일때, agent의 j번째 joint의 각속도
 
-세 번째는 end-effector reward입니다. character의 손과 발같은 말단부(end-effector)가 reference와 유사한 정도를 계산합니다. 
+세 번째는 end-effector reward입니다. character의 손과 발같은 말단부(end-effector)의 가 reference와 유사한 정도를 계산합니다. 
 
 $$ r_t^e = exp[-40(\sum_e\|\hat{p}_t^e - p_t^e\|^2)] $$
 
