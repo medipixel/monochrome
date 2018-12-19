@@ -66,7 +66,7 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 </figure>
 
 ### Our works
-이 방법론을 적용하려고 고민하고 있을 때는 round 1을 진행 중이었기 때문에 금방 끝낼 수 있다는 안일한 생각에 박차를 가했는데요. round 1 같은 경우는 주변 지형지물이나 기타 변화 없이 static 한 환경에서 등속도로 뛰어가기만 하면 되는 문제였기 때문입니다. 정해진 action을 입력한다면 변경 없이 항상 정해진 observation state가 나오게 되고 이런 변화 없는 state만 입력된다면 Behavioral cloning으로 학습된 agent에게는 최적의 환경이다는 생각이었습니다. round 2의 경우 속도가 변화한다는 사실은 알고 있었지만, agent를 우선 기본속도인 1.25m/s로 기본적인 policy를 학습시켜놓고, 가변하는 속도는 학습된 agent를 갖고 재트레이닝하는 방식으로 접근하려고 했습니다. 
+이 방법론을 적용하려고 고민하고 있을 때는 round 1을 진행 중이었기 때문에 금방 끝낼 수 있다는 안일한 생각에 박차를 가했는데요. round 1 같은 경우는 주변 지형지물이나 기타 변화 없이 static 한 환경에서 등속도로 뛰어가기만 하면 되는 문제였기 때문입니다. 정해진 action을 입력한다면 변경 없이 항상 정해진 observation state가 나오게 되고 이런 변화 없는 state만 입력된다면 Behavioral cloning으로 학습된 agent에게는 최적의 환경이라는 생각이었습니다. round 2의 경우 속도가 변화한다는 사실은 알고 있었지만, agent를 우선 기본속도인 1.25m/s로 기본적인 policy를 학습시켜놓고, 가변하는 속도는 학습된 agent를 갖고 재트레이닝하는 방식으로 접근하려고 했습니다. 
 
 그러나 이런 섣부른 기쁨?은 그리 오래가지 못했습니다. 앞선 posting에서 기술했듯이 action을 만들어내는 것이 실패했기 때문입니다. 그렇기 때문에 action 없이 observation state만을 이용한 방법론들을 탐색하게 되었습니다. 여러 논문과 아티클들을 리써치하던 중 적합한 논문을 발견하게 되었는데 그것이 Behavioral cloning from observation입니다.
 
@@ -85,18 +85,18 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 1. Initialize policy $\pi_{\phi}^{i=0}$
    * agent는 최초에 random policy로 시작
 2. 다음 반복
-   * Run policy $\pi_{\phi}^i$: 
-     * agent는 각 time step 별로 environment와 interaction 하여 samples($s_t^a, s_{t+1}^a$), action($a_t$) pair 생성
-   * Append to $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$: 
-     * 생성된 Samples는 $\mathcal{T}_{\pi_{\phi}}^a$ 에 action들은 $\mathcal{A}_{\pi_{\phi}}$에 넣어줌
-   * Update model $\mathcal{M}_{\theta}^i$:
-     * $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$를 사용하여 model 업데이트
-   * Infer action:
-     * model이 여러 demonstration trajectory의 모음인 $D_{\text{demo}}$ 사용하여 action inference
-   * Update policy $\pi_{\phi}^i$:
-     * agent의 policy 업데이트. demonstration state들과 inference 된 action들 $\mathcal{S}_{\text{demo}}$, $\tilde{\mathcal{A}}_{\text{demo}}$를 사용하여 behavioral Cloning 수행
+  * Run policy $\pi_{\phi}^i$: 
+    - agent는 각 time step 별로 environment와 interaction 하여 samples($s_t^a, s_{t+1}^a$), action($a_t$) pair 생성
+  * Append to $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$: 
+    - 생성된 Samples는 $\mathcal{T}_{\pi_{\phi}}^a$ 에 action들은 $\mathcal{A}_{\pi_{\phi}}$에 넣어줌
+  * Update model $\mathcal{M}_{\theta}^i$:
+    - $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$를 사용하여 model 업데이트
+  * Infer action:
+    - model이 여러 demonstration trajectory의 모음인 $D_{\text{demo}}$ 사용하여 action inference
+  * Update policy $\pi_{\phi}^i$:
+    - agent의 policy 업데이트. demonstration state들과 inference 된 action들 $\mathcal{S}_{\text{demo}}$, $\tilde{\mathcal{A}}_{\text{demo}}$를 사용하여 behavioral Cloning 수행
 
-조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_\theta$를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
+조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_{\theta}$ 를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
 
 $$ \theta^* = {arg\,max}_\theta \prod_{i=0}^{|\mathcal{I}^{\text{pre}}|}p_{\theta}(a_i | s_i^a, s_{i+1}^a) $$ 
 
@@ -107,7 +107,7 @@ $$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
 ### Our works
 Behavioral cloning 방법론을 택했던 또 다른 중요한 이유는 분산처리를 위해 사용하고 있었던 강화학습 플랫폼인 [Ray](https://rise.cs.berkeley.edu/projects/ray/)에서 agent가 미리 구현돼 있었다는 점입니다. 시간에 쫓기는 competition에서 이는 굉장한 이점이었습니다. 그러므로 새로운 학습방법론을 선정하는 과정에서 학습성능과 컨셉 못지않게 비중을 두었던 부분이 어떻게 하면 기존에 있던 모듈을 이용하여 구현시간을 단축할 수 있느냐는 점이었습니다. BCO는 이에 딱 알맞은 방법론이었죠. ray에서 이미 구현되어있는 BC agent를 활용해서 BCO agent를 구현하였습니다.[^1]
 
-그러나 결과는 생각보다 좋지 않았습니다. 결과부터 이야기하자면 behavioral cloning이 가진 근본적인 문제점이 해결되지 않았습니다. BCO에서 사용하는 action을 inference 해주는 model도 학습하지 못했던 observation 데이터가 들어온다면, 이상한 action을 결과로 만든다는 점이었습니다. 학습이 얼마 되지 않은 agent가 environment에서 얻어낼 수 있는 데이터는 고작 넘어지는 동작들뿐이었는데, Demonstration의 복잡한 달리기 싸이클에 대한 action은 당연히도 만들어 낼 수 없었습니다. 
+그러나 결과는 생각보다 좋지 않았습니다. 결론부터 이야기하자면 behavioral cloning이 가진 근본적인 문제점이 해결되지 않았습니다. BCO에서 사용하는 action을 inference 해주는 model도 학습하지 못했던 observation 데이터가 들어온다면, 이상한 action을 결과로 만든다는 점이었습니다. 학습이 얼마 되지 않은 agent가 environment에서 얻어낼 수 있는 데이터는 고작 넘어지는 동작들뿐이었는데, Demonstration의 복잡한 달리기 싸이클에 대한 action은 당연히도 만들어 낼 수 없었습니다. 
 
 그래서 이러한 model을 학습시키기 위한 데이터 부족현상에 대한 해결책으로, DAGGER와 비슷하게 train 데이터를 augmentation 하는 방법을 생각하게 되었습니다. 기존에 실험을 위해 여러 방법론으로 학습시키고 있었던 다른 agent들을 이용하여 state transition 데이터와 action 데이터를 만들어 내었습니다. 
 BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이터셋으로 학습시킨 후, 이 pretrained model을 BCO agent 학습에서 이용하였습니다.
