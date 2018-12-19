@@ -109,7 +109,7 @@ Behavioral cloning 방법론을 택했던 또 다른 중요한 이유는 강화�
 
 그러나 결과는 생각보다 좋지 않았습니다. 결론부터 이야기하자면 behavioral cloning이 가진 근본적인 문제점이 해결되지 않았습니다. BCO에서 사용하는 action을 inference 해주는 model도 학습하지 못했던 observation 데이터가 들어온다면, 이상한 action을 결과로 만든다는 점이었습니다. 학습이 얼마 되지 않은 agent가 environment에서 얻어낼 수 있는 데이터는 고작 넘어지는 동작들뿐이었는데, Demonstration의 복잡한 달리기 싸이클에 대한 action은 당연히도 만들어 낼 수 없었습니다. 
 
-그래서 이러한 model을 학습시키기 위한 데이터 부족현상에 대한 해결책으로, DAGGER와 비슷하게 train 데이터를 augmentation 하는 방법을 생각하게 되었습니다. 기존에 실험을 위해 여러 방법론으로 학습시키고 있었던 다른 agent들을 이용하여 state transition 데이터와 action 데이터를 만들어 내었습니다. 
+그래서 이러한 model을 학습시키기 위한 데이터 부족현상에 대한 해결책으로, DAgger와 비슷하게 train 데이터를 augmentation 하는 방법을 생각하게 되었습니다. 기존에 실험을 위해 여러 방법론으로 학습시키고 있었던 다른 agent들을 이용하여 state transition 데이터와 action 데이터를 만들어 내었습니다. 
 BCO를 사용하여 학습하기 전에 model을 미리 생성해놓은 데이터셋으로 학습시킨 후, 이 pretrained model을 BCO agent 학습에서 이용하였습니다.
 
 기대와는 달리 이 결과도 문제가 많았습니다. 다른 방식으로 학습시킨 agent의 동작과 demonstration 동작이 매우 달랐기 때문인데요. reward shaping을 통해 동작에 대한 최소한의 가이드만을 준 강화학습 위주의 방법론으로 학습시킨 agent들은 달리는 동작이 각기 제멋대로였습니다. 이 agent들은 자세보다 달성하고자 하는 목적에 좀 더 맞는 형식으로 학습되기 때문에, 사람이 봤을 때 괴상해 보일 수 있지만, reward 상으로 봤을 때는 높은 점수를 얻습니다. 그래서 이 동작들은 demonstration의 달리기 동작처럼 일반적인 데이터가 거의 없었습니다. 아래 그림을 봅시다.
