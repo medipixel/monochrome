@@ -90,11 +90,11 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
    * Append to $$\mathcal{T}_{\pi_{\phi}}^a, \mathcal{A}_{\pi_{\phi}}$$: 
       - 생성된 Samples는 $$\mathcal{T}_{\pi_{\phi}}^a$$ 에 action들은 $$\mathcal{A}_{\pi_{\phi}}$$에 넣어줌
    * Update model $\mathcal{M}_{\theta}^i$:
-      - $\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$를 사용하여 model 업데이트
+      - $$\mathcal{T}_{\pi_{\phi}}^a$, $\mathcal{A}_{\pi_{\phi}}$$를 사용하여 model 업데이트
    * Infer action:
-      - model이 여러 demonstration trajectory의 모음인 $D_{\text{demo}}$ 사용하여 action inference
+      - model이 여러 demonstration trajectory의 모음인 $$D_{\text{demo}}$$ 사용하여 action inference
    * Update policy $\pi_{\phi}^i$:
-      - agent의 policy 업데이트. demonstration state들과 inference 된 action들 $\mathcal{S}_{\text{demo}}$, $\tilde{\mathcal{A}}_{\text{demo}}$를 사용하여 behavioral Cloning 수행			
+      - agent의 policy 업데이트. demonstration state들과 inference 된 action들 $$\mathcal{S}_{\text{demo}}, \tilde{\mathcal{A}}_{\text{demo}}$$를 사용하여 behavioral Cloning 수행			
 
 조금 더 엄밀한 정의를 이야기하자면 모델 $\mathcal{M}_{\theta}$ 를 학습시키는 것은 observed transitions를 가장 잘 만들어낼 수 있는 $\theta^*$를 찾는 것입니다. 수식으로 표현하면 다음과 같습니다. 
 
