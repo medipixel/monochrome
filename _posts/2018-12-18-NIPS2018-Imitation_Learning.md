@@ -81,7 +81,7 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
   <img src="/img/imitation/reward_bco.PNG" width="60%" alt="">
 </figure>
 
-전체 프로세스는 동작 방식을 개략적으로 살펴보면 다음과 같습니다.
+전체 프로세스 개략적으로 살펴보면 다음과 같습니다.
 1. Initialize policy $\pi_{\phi}^{i=0}$
     * agent는 최초에 random policy로 시작
 2. 다음 반복
