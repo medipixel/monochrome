@@ -183,7 +183,7 @@ $$ r_t^e = exp[-40(\sum_e\|\hat{p}_t^e - p_t^e\|^2)] $$
   * $\hat{p}_t^e$: time step t일때, reference의 e번째 end-effector의 위치
   * $p_t^e$: time step t일때, agent의 e번째 end-effector의 위치
 
-마지막으로 center-of-mass reward입니다. character의 질량중심(center-of-mass)이 얼마나 reference와 차이가 있는지에 따라서 reward가 달라집니다. 
+마지막으로 center-of-mass reward입니다. character의 질량중심(center-of-mass)의 위치가 reference와의 차이 정도에 따라서 reward가 달라집니다. 
 
 $$ r_t^c = exp[-10(\sum_e\|\hat{p}_t^c - p_t^c\|^2)] $$
 
