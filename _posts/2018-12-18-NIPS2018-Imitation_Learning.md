@@ -51,10 +51,10 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 2. Left, Center, Right camera를 통해 observation 데이터를 수집
 3. steering wheel angle 녹화를 통해 action 데이터를 수집
 4. CNN 네트워크 학습
-5. Data augmentation: 
-   * Left camera에서 수집된 데이터는 action에 우측으로 가는 bias를 더해줌(가운데로 가기 위해)
-   * Right camera에서 수집된 데이터는 action에 좌측으로 가는 bias를 더해줌(가운데로 가기 위해)
-6.  학습(supervised learning)
+   * Data augmentation: 
+     - Left camera에서 수집된 데이터는 action에 우측으로 가는 bias를 더해줌(가운데로 가기 위해)
+     -  Right camera에서 수집된 데이터는 action에 좌측으로 가는 bias를 더해줌(가운데로 가기 위해)
+   * 학습(supervised learning)
 
 학습된 agent를 이용한 test는 매우 단순합니다. 다만 이 방법론은 한계점은 train 데이터셋에서 볼 수 없었던 observation이 test 시에 입력되게 된다면, action에서 미정의 동작이 발생하게 됩니다. deep-learning과는 달리 시시각각 변하는 환경에서 데이터를 입력받기 때문에, 이런 확률은 상당히 높은 편에 속하죠. 정리해서 표현하자면 expert의 trajectory 데이터셋 $P_{\text{data}}(o_t)$ 와 agent가 현재 policy $\pi_{\theta}$를 통해 경험할 수 있는 trajectory 데이터셋 $P_{\pi_{\theta}}(o_t)$ 의 분포가 다르기 때문입니다. 식으로 표현하면 다음과 같습니다. 
 
