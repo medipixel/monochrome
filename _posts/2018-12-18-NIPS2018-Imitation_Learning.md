@@ -216,7 +216,7 @@ exponential의 그래프는 다음과 같은 형태입니다.
 
 여기서 y축은 reward, x축은 위에서 설명한 error sum의 결괏값입니다. error sum 결괏값은 무조건 0보다 작은 값을 갖기 때문에 reward는 0~1 사이의 값을 갖게 됩니다. reward의 max 값이 1로 설정되는 셈이죠. 또한, error sum 결괏값(reference와의 차이)이 커지면 커질수록 x값은 exp그래프의 마이너스 방향으로 찍히게 되므로, 결과로 나오는 reward 값은 0에 한없이 가까워지게 됩니다. 이 차이 값이 -3 정도가 넘어가게 되면 얻게 되는 reward는 0.05 이하로 매우 낮아지게 됩니다. 여기서 알 수 있는 중요한 사실은 **error sum의 결괏값이 어느 범위내에 들어오는 것을 적법한 reward로 인정할 것이냐를 error sum 수식 앞에 붙은 계수를 통해서 조절**한다는 것입니다. 즉, reference와의 차이의 허용치를 조절한다는 말입니다. factor들은 다양한 물리량을 다룹니다. 어떤 것은 angle이 될 수도 있고, position 값들이 될 수도 있습니다. 이런 값들이 표현되는 고유한 형식에 따라 분포된 범위가 달라질 수 있습니다. 그리고 agent를 학습시키는 개발자들의 필요에 따라 유효한 범위를 조절하고 싶을 수 있습니다. 이런 부분들을 -2, -0.1, -40, -10과 같은 계수들을 통해 통제합니다. 
 <figure>
-  <img src="/img/imitation/nips2018-reward:reward_graph_ax2.gif" width="80%" alt="">
+  <img src="/img/imitation/reward_graph_ax2.gif" width="80%" alt="">
 </figure>
 
 #### Reference State Initialization (RSI)
@@ -269,7 +269,7 @@ DeepMimic에서 사용하였던 모든 주요 아이디어를 적용하려고 �
 
 observation의 데이터에는 모든 position, velocity, acceleration 값들이 포함되어 있습니다. 여기서 얻은 데이터를 정답으로 했을 때, script를 통해 새로 만들어낸 데이터와 얼마나 유사한지를 검사하였습니다. 그 결과 acceleration을 제외한 값들은 80% 이상의 유사도를 보였고, 이 정도면 가중치를 통해 경중을 조절해가며 reference로 이용할만한 값이라고 판단했습니다. 그렇게 해서 최종적으로 reference로 사용하기로 한 factor들은 joint angle(pose), joint velocities, center-of-mass이 3가지입니다.
 
-reward의 weight 및 penalty를 결정하는 일은 굉장히 시간이 많이 소요되는 일이었습니다. 끝이 언제일지 모를 hyper parameter tuning 작업이었는데요. imitation reward와 task reward의 비율부터, imitation factor들의 계수들, penalty 사용 여부 및 설정까지. 수정하고 실험해야 할 것들이 엄청나게 많았습니다. 실험을 진행하며 새로운 파라미터들을 추가해야만 했는데, kinematics 데이터의 불확실성 때문인 듯 rotation 값과 position 값들의 단순 비교만으로는 제대로 된 학습이 이루어지지 않았습니다. 해결책을 찾던 중 [opensim IK tool에서 계산](https://simtk-confluence.stanford.edu/display/OpenSim/How+Inverse+Kinematics+Works#HowInverseKinematicsWorks-_Toc174781343WeightedLeastSquaresEquation)하는 것을 참고하여, joint들에 weight를 각각 따로 부여하여 중요한 부분은 오류에 민감하게 반응하도록 하니 학습이 이루어졌습니다. 그래서 최종적으로 아래 예제와 같이 설정파일들을 만들고 hyper parameter tuning을 진행하였습니다. 
+reward의 weight 및 penalty를 결정하는 일은 굉장히 시간이 많이 소요되는 일이었습니다. 끝이 언제일지 모를 hyper parameter tuning 작업이었는데요. imitation reward와 task reward의 비율부터, imitation factor들의 계수들, penalty 사용 여부 및 설정까지. 수정하고 실험해야 할 것들이 엄청나게 많았습니다. 실험을 진행하며 새로운 파라미터들을 추가해야만 했는데, kinematics 데이터의 불확실성 때문인 듯 rotation 값과 position 값들의 단순 비교만으로는 제대로 된 학습이 이루어지지 않았습니다. 해결책을 찾던 중 [opensim IK tool에서 계산](https://simtk-confluence.stanford.edu/display/OpenSim/How+Inverse+Kinematics+Works#HowInverseKinematicsWorks-_Toc174781343WeightedLeastSquaresEquation)하는 것을 참고하여, joint들에 weight를 각각 따로 부여하여 중요한 부분은 오류에 민감하게 반응하도록 하니 학습이 이루어졌습니다. 그래서 최종적으로 아래 예제와 같이 parameter configuration을 만들고 hyper parameter tuning을 진행하였습니다. 
 ```python
 ************************************
 reward configuration
