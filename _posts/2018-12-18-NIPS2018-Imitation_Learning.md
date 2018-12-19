@@ -18,17 +18,17 @@ Google deep mind에서 2015년 발표한 [Human-level control through deep reinf
   * manually design: 수작업으로 직접 reward function을 만듦 
   * learn from demonstration: 전문가의 demonstration trajectory를 모방하게 함
 
-이번 competition에서도 위와 비슷한 문제가 있었습니다. 각 time step 별로 따라가야 할 속도는 나와 있었지만 나머지 정보는 전혀 없는 상태였죠. 특히 자세같은 경우는 상당히 중요한데, 현재의 자세가 다음 자세에 영향을 미치기 때문입니다. 이러한 연속적인 자세의 모음으로 원하는 속도가 제대로 나느냐 안 나느냐가 판가름 나기 때문에, 자세에 대한 상벌은 굉장히 중요한 요소였습니다. 그래서 우선 manually design 한 방식으로 접근하기 시작했습니다.
+이번 competition에서도 위와 비슷한 문제가 있었습니다. 각 time step 별로 따라가야 할 속도는 나와 있었지만 나머지 정보는 전혀 없는 상태였죠. 특히 자세같은 경우는 상당히 중요한데, 현재의 자세가 다음 자세에 영향을 미치기 때문입니다. 이러한 연속적인 자세의 모음으로 원하는 속도가 제대로 나느냐 안 나느냐가 판가름 나기 때문에, 자세에 대한 상벌은 굉장히 중요한 요소였습니다. 우선 manually design 한 방식으로 접근하기 시작했습니다.
 
 처음에는 아주 간단한 reward와 penalty부터 출발하였습니다. [Nips2017 competition solution](http://osim-rl.stanford.edu/docs/nips2017/solutions/)에 공개된 후기들을 탐색한 결과 거의 모든 참가자가 적용하였던 부분이 있었습니다. 
   * 골반은 전방으로 기울어 져야 한다 -> pelvis의 각도
   * 머리는 항상 골반보다 앞서 위치하여야 한다 -> head, pelvis의 위치
-  * 넘어지면 페널티
+  * 넘어지면 penalty
 
 위 3가지를 넣고 수행하며 결과를 지켜봤는데, round 1 같은 경우 생각보다 괜찮은 결과물이 나왔습니다.
 
 # Imitation Learning
-Learn from demonstration은 Imitation Learning이라고도 불립니다. manually design 전략에서 꽤 괜찮은 결과물을 내었지만, 더 정밀한 reward를 만들기 위해 얼마 안 가 Imitation Learning 관련 리써치를 시작하였습니다. 본격적으로 Imitation learning을 적용하기 시작했을 시기는 competition이 어느 정도 진행된 후였습니다. 앞선 Opensim post에서 언급했던 것과 같이 여러 가지 시행착오를 겪으며 리써치를 수행한 후에야 어느정도 기본적인 Demonstration을 만들 수 있었기 때문이죠. 
+Learn from demonstration은 Imitation Learning이라고도 불립니다. manually design 전략에서 꽤 괜찮은 결과물을 내었지만, 더 정밀한 reward를 만들기 위해 얼마 안 가 Imitation Learning 관련 리써치를 시작하였습니다. 본격적으로 Imitation learning을 적용하기 시작했을 시기는 competition이 어느 정도 진행된 후였습니다. 앞선 [Opensim]({{ site.url }}/NIPS2018-Opensim)에서 언급했던 것과 같이 여러 가지 시행착오를 겪으며 리써치를 수행한 후에야 어느정도 기본적인 Demonstration을 만들 수 있었기 때문이죠. 
 
 Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 이번 competition을 금방 끝낼 수 있을 것만 같은 착각에 빠져있었습니다. 아직 opensim에 대해 조사가 깊이 이루어지기 전이어서, opensim tool들을 사용해서 주어진 kinematics로부터 action을 만들어 낼 수 있다고 파악했기 때문이었죠. 다음 그림과 같이 말이죠.
 <figure>
