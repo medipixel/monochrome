@@ -23,7 +23,7 @@ learning methods15 in the literature.<br>from <a href="https://storage.googleapi
 
 이번 competition에서도 위와 비슷한 문제가 있었습니다. 각 time step 별로 따라가야 할 속도는 나와 있었지만 나머지 정보는 전혀 없는 상태였죠. 특히 자세같은 경우는 상당히 중요한데, 현재의 자세가 다음 자세에 영향을 미치기 때문입니다. 이러한 연속적인 자세의 모음으로 원하는 속도가 제대로 나느냐 안 나느냐가 판가름 나기 때문에, 자세에 대한 상벌은 굉장히 중요한 요소였습니다. 우선 manually design 한 방식으로 접근하기 시작했습니다.
 
-처음에는 아주 간단한 reward와 penalty부터 출발하였습니다. [Nips2017 competition solution](http://osim-rl.stanford.edu/docs/nips2017/solutions/)에 공개된 후기들을 탐색한 결과 거의 모든 참가자가 적용하였던 부분이 있었습니다. 
+처음에는 아주 간단한 reward와 penalty부터 출발하였습니다. [NIPS2017 competition solution](http://osim-rl.stanford.edu/docs/nips2017/solutions/)에 공개된 후기들을 탐색한 결과 거의 모든 참가자가 적용하였던 부분이 있었습니다. 
   * 골반은 전방으로 기울어 져야 한다 -> pelvis의 각도
   * 머리는 항상 골반보다 앞서 위치하여야 한다 -> head, pelvis의 위치
   * 넘어지면 penalty
