@@ -84,7 +84,7 @@ center camera.<br>from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End
 ## Behavioral Cloning from Observation
 
 ### Brief description
-[Behavioral Cloning from Observation](https://arxiv.org/abs/1805.01954)(BCO)는 model-based 방법론입니다. Agent의 학습에는 그대로 BC를 사용하지만, Observation으로부터 Action을 예측하는 model이 추가됩니다. 이 Neural network로 만들어진 model(Inverse Dynamics Model)을 이용, 비어있는 Demonstration의 action을 inference 해서 BC에서 사용할 state, action을 만들어내는 것이죠. 
+[Behavioral Cloning from Observation](https://arxiv.org/abs/1805.01954)(BCO)는 model-based 방법론입니다. Agent의 학습에는 그대로 BC를 사용하지만, observation으로부터 action을 예측하는 model이 추가됩니다. 이 Neural network로 만들어진 model(Inverse Dynamics Model)을 이용, 비어있는 Demonstration의 action을 inference 해서 BC에서 사용할 state, action을 만들어내는 것이죠. 
 
 논문에서 BCO(0)와 BCO(α)의 버전을 두었는데, 차이는 environment와 interaction을 일회성으로 하느냐 지속해서 하느냐의 여부입니다. BCO(0)는 model 학습 시 agent의 최초로 설정된 policy를 통해 interaction(Pre-demonstration)을 하여 만들어낸 state transition 데이터와 action 데이터만 이용합니다. BCO(α)는 agent의 update 된 policy를 이용하여 추가적인 interaction(Post-demonstration)를 수행하고 이 데이터들을 이용합니다. 여기서는 BCO(α)를 사용하였습니다. 
 
