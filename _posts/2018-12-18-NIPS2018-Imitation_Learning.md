@@ -236,7 +236,7 @@ exponential의 그래프는 다음과 같은 형태입니다.
 </figure>
 
 ##### Reference State Initialization (RSI)
-일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습하기 어렵습니다. 또한, 강화학습은 이전에 경험한 trajectory에서 높은 reward를 한번이라도 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
+일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습하기 어렵습니다. 또한, 강화학습은 이전에 경험한 trajectory에서 높은 reward를 한 번이라도 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
 <figure>
   <img src="/img/imitation/no_rsi.png" width="40%" alt="">
   <figcaption>from <a href="https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/">Towards a Virtual Stuntman</a>
