@@ -120,7 +120,7 @@ $$ \phi^* = {arg\,max}_\phi \prod_{i=0}^{N}\pi_{\phi}(\tilde{a}_i | s_i) $$
 ### Our works
 Behavioral cloning 방법론을 택했던 또 다른 중요한 이유는 강화학습 분산처리를 위해 사용하고 있었던 framework인 [Ray](https://rise.cs.berkeley.edu/projects/ray/)에서 agent가 미리 구현돼 있었다는 점입니다. 시간에 쫓기는 competition에서 이는 굉장한 이점이었습니다. 그러므로 새로운 학습방법론을 선정하는 과정에서 학습성능과 컨셉 못지않게 비중을 두었던 부분이 어떻게 하면 기존에 있던 모듈을 이용하여 구현시간을 단축할 수 있느냐는 점이었습니다. BCO는 이에 딱 알맞은 방법론이었죠. ray에서 이미 구현되어있는 BC agent를 활용해서 BCO agent를 구현하였습니다.[^1]
 
-그러나 결과는 생각보다 좋지 않았습니다. 결론부터 이야기하자면 behavioral cloning이 가진 근본적인 문제점이 해결되지 않았습니다. BCO에서 사용하는 action을 inference 해주는 model도 학습하지 못했던 observation 데이터가 들어온다면, 이상한 action을 결과로 만든다는 점이었습니다. 학습이 얼마 되지 않은 agent가 environment에서 얻어낼 수 있는 데이터는 고작 넘어지는 동작들뿐이었는데, Demonstration의 복잡한 달리기 싸이클에 대한 action은 당연히도 만들어 낼 수 없었습니다. 
+그러나 결과는 생각보다 좋지 않았습니다. 결론부터 이야기하자면 behavioral cloning이 가진 근본적인 문제점이 해결되지 않았습니다. BCO에서 사용하는 action을 inference 해주는 model도 학습하지 못했던 observation 데이터가 들어온다면, 이상한 action을 결과로 만든다는 점이었습니다. 학습이  되지 않은 agent가 environment에서 얻어낼 수 있는 데이터는 고작 넘어지는 동작들뿐이었는데, Demonstration의 복잡한 달리기 싸이클에 대한 action은 당연히도 만들어 낼 수 없었습니다. 
 
 그래서 이러한 model을 학습시키기 위한 데이터 부족현상에 대한 해결책으로, DAgger와 비슷하게 train 데이터를 augmentation 하는 방법을 생각하게 되었습니다. 기존에 실험을 위해 여러 방법론으로 학습시키고 있었던 다른 agent들을 이용하여 state transition 데이터와 action 데이터를 만들어 내었습니다. 
 BCO를 사용하여 학습하기 전에 미리 생성해놓은 데이터셋으로 model을 학습시킨 후, 이 pretrained model을 BCO agent 학습에서 이용하였습니다.
