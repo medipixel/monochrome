@@ -13,7 +13,7 @@ Google deep mind에서 2015년 발표한 [Human-level control through deep reinf
 <figure>
   <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmind_dqn_chart.png" width="80%" alt="">
   <figcaption>Comparison of the DQN agent with the best reinforcement
-learning methods15 in the literature.<br>from <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf/">Human-level control through deep reinforcement , V Mnih et al, 2015.</a>
+learning methods15 in the literature.<br>from <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf/">Human-level control through deep reinforcement , V Mnih et al. 2015</a>
   </figcaption>
 </figure>
 
@@ -90,8 +90,8 @@ center camera.<br>from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End
 
 <figure>
   <img src="/img/imitation/reward_bco.PNG" width="60%" alt="">
-  <figcaption>  The trained network is used to generate steering commands from a single front-facing
-center camera. from <a href="https://arxiv.org/pdf/1805.01954.pdf">Behavioral Cloning from Observation. </a>
+  <figcaption>  The trained network is used to generate steering commands.<br> from a single front-facing
+center camera. from <a href="https://arxiv.org/pdf/1805.01954.pdf">Behavioral Cloning from Observation , Torabi et al. 2018 </a>
   </figcaption>
 </figure>
 
@@ -144,6 +144,9 @@ BCO를 사용하여 학습하기 전에 미리 생성해놓은 데이터셋으�
 BC 계열 같은 경우 동작의 시퀀스를 알려줘서 자연스럽게 목적을 달성하게 됩니다. 우리가 goal이나 해야 할 task를 명확하게 지정해주지 않죠. agent에게 각 time step 별로 따라 해야 할 동작들만을 힌트로 제공합니다. 그렇다 보니 time step 별로 지정된 동작의 시퀀스가 한번 깨지게 되고 이런 부분이 쌓이게 되면 결과적으로 달성해야 할 목적에서 크게 벗어나게 됩니다. 
 <figure>
   <img src="/img/imitation/reward_bc_pdata_err.PNG" width="60%" alt="">
+  <figcaption>from <a href="http://www.andrew.cmu.edu/course/10-703/slides/Lecture_Imitation_supervised-Nov-5-2018.pdf">CMU 10703 
+Deep Reinforcement Learning and Control - Imitation Learning 1</a>
+  </figcaption>
 </figure>
 
 그러므로 자세를 참고는 하되 달성해야 할 목적을 계속해서 염두에 두고 수행하는, 나아가 참고해야 할 자세와 수행해야 할 목적의 비율을 조정해가며 실험해볼 수 있는 새로운 방법론이 필요하다는 생각을 하였습니다. 또다시 많은 탐색 과정을 거쳐 DeepMimic이라는 방법론을 사용하게 되었습니다.
@@ -237,11 +240,15 @@ exponential의 그래프는 다음과 같은 형태입니다.
 일반적인 강화학습에서는 각 episode 시작 시에 initial state가 고정되어 있습니다. 게임을 시작할 때 시작 포인트와 캐릭터가 항상 똑같은 곳에 위치하는 것처럼요. 복잡한 동작을 배우기에는 이런 전략이 유효하지 않을 수 있습니다. 왜냐하면, agent의 policy는 항상 초기의 reference의 motion부터 차례대로 학습이 되는데, 초기 동작을 확실하게 마스터하기 전까지는 후속 동작을 학습할 수 없습니다. 또한, 강화학습에서 이전에 경험한 trajectory에서 높은 reward를 얻어야만 제대로 된 학습이 가능한데, backflip같이 복잡하고 어려운 동작은 random exploration을 통해 성공적인 결과를 얻기가 매우 어렵습니다.
 <figure>
   <img src="/img/imitation/no_rsi.png" width="40%" alt="">
+  <figcaption>from <a href="https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/">Towards a Virtual Stuntman</a>
+  </figcaption>
 </figure>
 
 그러므로 RSI에서는 이 initial state를 변경합니다. reference motion의 state 중 한 포인트에서 무작위로 시작합니다. backflip으로 예를 들자면 어떤 때는 땅에서 시작할 수도 있지만, 어떤 때는 공중에서 몸이 돌아가는 중이 될 수도 있겠지요. 
 <figure>
   <img src="/img/imitation/rsi.png" width="40%" alt="">
+  <figcaption>from <a href="https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/">Towards a Virtual Stuntman</a>
+  </figcaption>
 </figure>
 
 ##### Early termination (ET)
@@ -249,7 +256,7 @@ agent가 특정 상황에 끼어서(stuck) 더는 학습을 진행할 수 없는
 
 <figure>
   <img src=" http://bair.berkeley.edu/static/blog/stuntman/backflip_ablation.gif" width="80%" alt="">
-  <figcaption> Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. <br> Left: RSI+ET. Middle: No RSI. Right: No ET.</figcaption>
+  <figcaption> Comparison of policies trained without RSI or ET. RSI and ET can be crucial for learning more dynamics motions. <br> Left: RSI+ET. Middle: No RSI. Right: No ET.<br>from <a href="https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/">Towards a Virtual Stuntman</a></figcaption>
 </figure>
 
 
