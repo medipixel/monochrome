@@ -90,8 +90,7 @@ center camera.<br>from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End
 
 <figure>
   <img src="/img/imitation/reward_bco.PNG" width="60%" alt="">
-  <figcaption>  The trained network is used to generate steering commands.<br> from a single front-facing
-center camera. from <a href="https://arxiv.org/pdf/1805.01954.pdf">Behavioral Cloning from Observation , Torabi et al. 2018 </a>
+  <figcaption>  Behavioral Cloning from Observation (BCO(α)) framework. from <a href="https://arxiv.org/pdf/1805.01954.pdf">Behavioral Cloning from Observation , Torabi et al. 2018 </a>
   </figcaption>
 </figure>
 
