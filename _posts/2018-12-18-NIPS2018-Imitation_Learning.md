@@ -12,6 +12,9 @@ reward, penalty를 바꿔가며 했던 여러 가지 실험 결과에 관해 이
 Google deep mind에서 2015년 발표한 [Human-level control through deep reinforcement](https://www.nature.com/articles/nature14236/)를 보면 다양한 atari game environment에서 DQN의 성능을 볼 수 있습니다. montezuma's revenge 같은 경우 거의 바닥에 수렴(randome play와 같은 수준)하는 결과치를 볼 수 있는데요. 이 게임은 stage를 클리어하기 위해 주인공 캐릭터가 거쳐야 하는 단계가 너무 복잡하고 많습니다. 이것을 강화학습 관점에서 이야기하면 reward가 너무 sparse 하여 강화학습 agent가 어떻게 상황을 헤쳐나갈 지에 대해 갈피를 잡지 못한다고 할 수 있습니다.
 <figure>
   <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmind_dqn_chart.png" width="80%" alt="">
+  <figcaption>Comparison of the DQN agent with the best reinforcement
+learning methods15 in the literature. from <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf/"> Human-level control through deep reinforcement</a>
+  </figcaption>
 </figure>
 
 그렇다면 어떻게 sparse 한 reward를 dense 하게 만들 수 있을까요? 크게 2가지 해결책이 있을 수 있습니다.
@@ -33,6 +36,8 @@ Learn from demonstration은 Imitation Learning이라고도 불립니다. manuall
 Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 이번 competition을 금방 끝낼 수 있을 것만 같은 착각에 빠져있었습니다. 아직 opensim에 대해 조사가 깊이 이루어지기 전이어서, opensim tool들을 사용해서 주어진 kinematics로부터 action을 만들어 낼 수 있다고 파악했기 때문이었죠. 다음 그림과 같이 말이죠.
 <figure>
   <img src="/img/opensim/opensim_02.png" width="60%" alt="">
+  <figcaption> Typical workflow for generating a muscle-driven simulation. from <a href="https://simtk-confluence.stanford.edu/display/OpenSim/Overview+of+the+OpenSim+Workflow"> Overview of the OpenSim Workflow</a>
+  </figcaption>
 </figure>
 action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 그에 따른 action이 있다면 Behavioral cloning 방법론을 사용할 수 있었기 때문입니다.
 
@@ -43,6 +48,8 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 
 <figure>
   <img src="/img/imitation/reward_bc_train.png" width="80%" alt="">
+  <figcaption> from <a href="http://www.andrew.cmu.edu/course/10-703/slides/Lecture_Imitation_supervised-Nov-5-2018.pdf">CMU 10703 - Imitation Learning 1</a>
+  </figcaption>
 </figure>
 
 마치 Deep learning에서 CNN Classifier를 학습시키는 것과 유사한데요. Classifier 학습에 빗대자면 Input은 camera를 통해 들어오는 observation 데이터, Output은 steering command 라고 생각할 수 있습니다. 그리고 Label로 제시된 사람이 입력한 steering command와의 차이를 loss로 back propagation을 통해 학습됩니다. 정리하자면 다음과 같습니다.
@@ -53,7 +60,7 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 4. CNN 네트워크 학습
    * Data augmentation: 
      - Left camera에서 수집된 데이터는 action에 우측으로 가는 bias를 더해줌(가운데로 가기 위해)
-     -  Right camera에서 수집된 데이터는 action에 좌측으로 가는 bias를 더해줌(가운데로 가기 위해)
+     - Right camera에서 수집된 데이터는 action에 좌측으로 가는 bias를 더해줌(가운데로 가기 위해)
    * 학습(supervised learning)
 
 학습된 agent를 이용한 test는 매우 단순합니다. 다만 이 방법론은 한계점은 train 데이터셋에서 볼 수 없었던 observation이 test 시에 입력되게 된다면, action에서 미정의 동작이 발생하게 됩니다. deep-learning과는 달리 시시각각 변하는 환경에서 데이터를 입력받기 때문에, 이런 확률은 상당히 높은 편에 속하죠. 정리해서 표현하자면 expert의 trajectory 데이터셋 $P_{\text{data}}(o_t)$ 와 agent가 현재 policy $\pi_{\theta}$를 통해 경험할 수 있는 trajectory 데이터셋 $P_{\pi_{\theta}}(o_t)$ 의 분포가 다르기 때문입니다. 식으로 표현하면 다음과 같습니다. 
@@ -63,6 +70,9 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 이런 문제들을 해결하기 위해 train 데이터셋을 augmentaion하기 위한 여러 가지 방법들이 사용됩니다. [DAgger](https://arxiv.org/abs/1011.0686)(Dataset Aggregation algorithm)가 대표적인 방법론이죠. 
 <figure>
   <img src="/img/imitation/reward_bc_test.PNG" width="60%" alt="">
+  <figcaption>  The trained network is used to generate steering commands from a single front-facing
+center camera. from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End Learning for Self-Driving Cars</a>
+  </figcaption>
 </figure>
 
 ### Our works
