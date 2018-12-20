@@ -396,7 +396,7 @@ reward - penalty
 
 ---
 [^1]:구현 내용에 대한 설명은 다음 posting에서 다룰 예정입니다. 
-[^2]:논문에서는 이 수식에 - 기호가 아닌 $\ominus$ 가 사용됩니다. 이유는 논문에서 사용된 데이터가 joint orientation을 quaternion로 표현하기 때문인데, quaternion difference를 구하는 것을 $\ominus$라고 한 것입니다. 여기서는[bair blog](https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/)에 언급한 것처럼 일반 - 를 사용하였습니다.
+[^2]:논문에서는 이 수식에 - 기호가 아닌 $\ominus$ 가 사용됩니다. 이유는 논문에서 사용된 데이터가 joint orientation을 quaternion로 표현하기 때문인데, quaternion difference를 구하는 것을 $\ominus$라고 한 것입니다. 여기서는[Towards a Virtual Stuntman](https://bair.berkeley.edu/blog/2018/04/10/virtual-stuntman/)에 언급한 것처럼 일반 - 를 사용하였습니다.
 [^3]:사실 round2 reward에는 z축 penalty가 더 있습니다. 다만 여기서는 가장 큰 점수 차이가 발생하는 부분이 x축 penalty이기 때문에 간소화를 위해 생략했습니다.
 
 
