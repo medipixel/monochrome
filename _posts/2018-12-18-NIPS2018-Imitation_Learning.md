@@ -13,7 +13,7 @@ Google deep mind에서 2015년 발표한 [Human-level control through deep reinf
 <figure>
   <img src="https://raw.githubusercontent.com/medipixel/medipixel.github.io/master/img/imitation/reward_deepmind_dqn_chart.png" width="80%" alt="">
   <figcaption>Comparison of the DQN agent with the best reinforcement
-learning methods15 in the literature. from <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf/"> Human-level control through deep reinforcement</a>
+learning methods15 in the literature.<br>from <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf/">Human-level control through deep reinforcement , V Mnih et al, 2015.</a>
   </figcaption>
 </figure>
 
@@ -36,7 +36,7 @@ Learn from demonstration은 Imitation Learning이라고도 불립니다. manuall
 Demonstration으로 쓸 kinematics 데이터셋이 완성되었을 초기에는 이번 competition을 금방 끝낼 수 있을 것만 같은 착각에 빠져있었습니다. 아직 opensim에 대해 조사가 깊이 이루어지기 전이어서, opensim tool들을 사용해서 주어진 kinematics로부터 action을 만들어 낼 수 있다고 파악했기 때문이었죠. 다음 그림과 같이 말이죠.
 <figure>
   <img src="/img/opensim/opensim_02.png" width="60%" alt="">
-  <figcaption> Typical workflow for generating a muscle-driven simulation. from <a href="https://simtk-confluence.stanford.edu/display/OpenSim/Overview+of+the+OpenSim+Workflow"> Overview of the OpenSim Workflow</a>
+  <figcaption> Typical workflow for generating a muscle-driven simulation. from <a href="https://simtk-confluence.stanford.edu/display/OpenSim/Overview+of+the+OpenSim+Workflow">Overview of the OpenSim Workflow</a>
   </figcaption>
 </figure>
 action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 그에 따른 action이 있다면 Behavioral cloning 방법론을 사용할 수 있었기 때문입니다.
@@ -48,7 +48,8 @@ action을 만들어내는 것이 왜 중요 했느냐 하면, demonstration과 �
 
 <figure>
   <img src="/img/imitation/reward_bc_train.png" width="80%" alt="">
-  <figcaption> from <a href="http://www.andrew.cmu.edu/course/10-703/slides/Lecture_Imitation_supervised-Nov-5-2018.pdf">CMU 10703 - Imitation Learning 1</a>
+  <figcaption>from <a href="http://www.andrew.cmu.edu/course/10-703/slides/Lecture_Imitation_supervised-Nov-5-2018.pdf">CMU 10703 
+Deep Reinforcement Learning and Control - Imitation Learning 1</a>
   </figcaption>
 </figure>
 
@@ -71,7 +72,7 @@ $$ P_{\text{data}}(o_t) \neq P_{\pi_{\theta}}(o_t) $$
 <figure>
   <img src="/img/imitation/reward_bc_test.PNG" width="60%" alt="">
   <figcaption>  The trained network is used to generate steering commands from a single front-facing
-center camera. from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End Learning for Self-Driving Cars</a>
+center camera.<br>from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End Learning for Self-Driving Cars , Bojarski et al. 2016</a>
   </figcaption>
 </figure>
 
@@ -89,6 +90,9 @@ center camera. from <a href="https://arxiv.org/pdf/1604.07316.pdf">End to End Le
 
 <figure>
   <img src="/img/imitation/reward_bco.PNG" width="60%" alt="">
+  <figcaption>  The trained network is used to generate steering commands from a single front-facing
+center camera. from <a href="https://arxiv.org/pdf/1805.01954.pdf">Behavioral Cloning from Observation. </a>
+  </figcaption>
 </figure>
 
 전체 프로세스 개략적으로 살펴보면 다음과 같습니다.
